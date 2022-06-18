@@ -2,14 +2,16 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
-const routes = require('./routes/index.js');
+
+// const routes = require('./routes');
+const breedRouter = require('./routes/breedRoutes');
+const temperamentsRouter = require('./routes/temperamentRoutes');
+// const routes = require('./routes/index.js');
 
 require('./db.js');
 
 const server = express();
-
 server.name = 'API';
-
 server.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 server.use(bodyParser.json({ limit: '50mb' }));
 server.use(cookieParser());
@@ -22,14 +24,9 @@ server.use((req, res, next) => {
   next();
 });
 
-server.use('/', routes);
+server.use(express.json());
 
-// Error catching endware.
-server.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
-  const status = err.status || 500;
-  const message = err.message || err;
-  console.error(err);
-  res.status(status).send(message);
-});
+server.use('/dogs', breedRouter);
+server.use('/temperaments', temperamentsRouter);
 
 module.exports = server;

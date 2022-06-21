@@ -10,7 +10,7 @@ const getDogBreed = async (req, res) => {
 
   if (!name) {
     // Retornar listado de razas de perro
-    const dbBreeds = await Breed.findAll({ offset : page, limit: LIMIT_DOGS});
+    const dbBreeds = await Breed.findAll({ offset : page === 0 ? 0 : page * LIMIT_DOGS, limit: LIMIT_DOGS});
     if (dbBreeds.length === 0) {
       const { data: breeds } = await axios.get(`https://api.thedogapi.com/v1/breeds?limit=${LIMIT_DOGS}&page=${page}`, {
         headers: {
@@ -19,14 +19,56 @@ const getDogBreed = async (req, res) => {
       });
 
       return res.status(200).json(breeds);
-    } else if (dbBreeds.length < LIMIT_DOGS) {
+    } else if (dbBreeds.length === LIMIT_DOGS) {
       console.log(dbBreeds.length); // 3 , 5 , 7
+      return res.status(200).json(dbBreeds.map(breed => {
+        return {
+          'name': breed.name,
+          'id': breed.id,
+          'life_span': breed.life_span,
+          'temperament': [],
+          'height': {
+            'imperial': breed.maxHeight,
+            'metric': breed.minHeight,
+          },
+          'weight': {
+            'imperial': breed.maxWeight,
+            'metric': breed.minWeight,
+          }
+        }
+        })
+      );
+    } else {
+      // si el numero de razas en la db no es 8 sino menor se completa con el resto
+      const numberToComplete = LIMIT_DOGS - dbBreeds.length;
 
+      const { data: breeds } = await axios.get(`https://api.thedogapi.com/v1/breeds?limit=${numberToComplete}&page=0`, {
+        headers: {
+          'x-api-key': API_KEY
+        }
+      });
+
+      return res.status(200).json(dbBreeds.map(breed => {
+        return {
+          'name': breed.name,
+          'id': breed.id,
+          'life_span': breed.life_span,
+          'temperament': [],
+          'height': {
+            'imperial': breed.maxHeight,
+            'metric': breed.minHeight,
+          },
+          'weight': {
+            'imperial': breed.maxWeight,
+            'metric': breed.minWeight,
+          }
+        }
+        }).concat(breeds)
+      );
     }
   }
 
-
-  const regex = new RegExp(name, 'gi');
+  const regex = new RegExp(name, 'i');
   const dbBreeds = await Breed.findAll({ offset : page, limit: LIMIT_DOGS, where: {
     name: regex
   }});
@@ -67,7 +109,20 @@ const getBreedById = async (req, res) => {
     } else {
       const breed = await Breed.findByPk(id);
       if (!breed) return res.status(404).send('ID provided does not belong to any existing breed on DB')
-      return res.status(200).json(breed)
+      return res.status(200).json({
+        'name': breed.name,
+        'id': breed.id,
+        'life_span': breed.life_span,
+        'temperament': [],
+        'height': {
+          'imperial': breed.maxHeight,
+          'metric': breed.minHeight,
+        },
+        'weight': {
+          'imperial': breed.maxWeight,
+          'metric': breed.minWeight,
+        }
+      })
     }
   } catch (error) {
     console.log(error);

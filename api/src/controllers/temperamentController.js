@@ -1,6 +1,5 @@
 const { Temperament } = require('../db');
-const axios = require("axios");
-const { API_KEY } = process.env;
+const DogAPI = require('../utils/axios');
 
 const getTemperaments = async (req, res) => {
   try {
@@ -8,12 +7,7 @@ const getTemperaments = async (req, res) => {
     if (dbTemperaments.length === 0) {
       console.log('THERES NO TEMPERAMENTS IN DB, GET IT FROM API');
       try {
-        const { data: Dogs } = await axios("https://api.thedogapi.com/v1/breeds", {
-          headers: {
-            'x-api-key': API_KEY
-          }
-        });
-
+        const { data: Dogs } = await DogAPI.get('breeds');
         let temperaments = [];
 
         Dogs.forEach(dog => {

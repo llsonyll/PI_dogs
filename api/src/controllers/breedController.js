@@ -1,26 +1,21 @@
-const { Breed } = require('../db.js');
-const axios = require("axios");
-
+const { Breed, Temperament } = require('../db.js');
+const DogAPI = require('../utils/axios');
 const LIMIT_DOGS = 8;
-const { API_KEY } = process.env;
 
 const getDogBreed = async (req, res) => {
   const { name, page = 0 } = req.query;
-  // const path = name ? `https://api.thedogapi.com/v1/breeds/search?q=${name}&limit=${LIMIT_DOGS}&page=${page}` : `https://api.thedogapi.com/v1/breeds?limit=${LIMIT_DOGS}&page=${page}`;
 
   if (!name) {
     // Retornar listado de razas de perro
-    const dbBreeds = await Breed.findAll({ offset : page === 0 ? 0 : page * LIMIT_DOGS, limit: LIMIT_DOGS});
-    if (dbBreeds.length === 0) {
-      const { data: breeds } = await axios.get(`https://api.thedogapi.com/v1/breeds?limit=${LIMIT_DOGS}&page=${page}`, {
-        headers: {
-          'x-api-key': API_KEY
-        }
-      });
+    const dbBreeds = await Breed.findAll({ offset : page === 0 ? 0 : page * LIMIT_DOGS, limit: LIMIT_DOGS, include: [{
+      model: Temperament,
+      through: { attributes: [] }
+    }]});
 
+    if (dbBreeds.length === 0) {
+      const { data: breeds } = await DogAPI.get(`breeds?limit=${LIMIT_DOGS}&page=${page}`);
       return res.status(200).json(breeds);
     } else if (dbBreeds.length === LIMIT_DOGS) {
-      console.log(dbBreeds.length); // 3 , 5 , 7
       return res.status(200).json(dbBreeds.map(breed => {
         return {
           'name': breed.name,
@@ -41,13 +36,7 @@ const getDogBreed = async (req, res) => {
     } else {
       // si el numero de razas en la db no es 8 sino menor se completa con el resto
       const numberToComplete = LIMIT_DOGS - dbBreeds.length;
-
-      const { data: breeds } = await axios.get(`https://api.thedogapi.com/v1/breeds?limit=${numberToComplete}&page=0`, {
-        headers: {
-          'x-api-key': API_KEY
-        }
-      });
-
+      const { data: breeds } = await DogAPI.get(`breeds?limit=${numberToComplete}&page=0`);
       return res.status(200).json(dbBreeds.map(breed => {
         return {
           'name': breed.name,

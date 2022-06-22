@@ -34,10 +34,9 @@ const Landing = () => {
                         <FaNodeJs />
                     </IconContext.Provider>
                 </div>
-                <span>  by  <a href='https://github.com/llsonyll' target="_blank" rel='noreferrer'> llsonyll </a> </span>
+                <span> by <a href='https://github.com/llsonyll' target="_blank" rel='noreferrer'> llsonyll </a> </span>
             </div>
         </div>
-
     </div>
 }
 

@@ -1,4 +1,4 @@
-const { Breed, Temperament } = require('../db.js');
+const { Breed, Temperament, Op } = require('../db.js');
 const DogAPI = require('../utils/axios');
 const LIMIT_DOGS = 8;
 
@@ -59,11 +59,13 @@ const getDogBreed = async (req, res) => {
       }
     }
 
-    const regex = new RegExp(name, 'i');
+    // const regex = new RegExp(name, 'i');
     const dbBreeds = await Breed.findAll({
       offset : page === 0 ? 0 : page * LIMIT_DOGS,
       limit: LIMIT_DOGS,
-      where: { name: regex },
+      where: {
+        name: { [Op.iRegexp] : name }
+      },
       include: Temperament
     });
 

@@ -1,6 +1,4 @@
 import './landing.scss';
-import { Link } from "react-router-dom";
-import HenryLogo from '../../assets/henry.png'
 import DogsLogo from '../../assets/dog.png'
 
 // React-Icons
@@ -8,12 +6,14 @@ import { IconContext } from "react-icons";
 import { FaReact, FaNodeJs } from "react-icons/fa";
 import { SiExpress, SiPostgresql } from "react-icons/si";
 
+// Components
+import NavBar from '../../components/NavBar';
+import RouteButton from '../../components/RouteButton';
+
 
 const Landing = () => {
     return <div className="landing">
-        <div className="landing__header">
-            <img src={HenryLogo} alt="henryLogo" className='landing__header__img'/>
-        </div>
+        <NavBar />
         <div className="landing__content">
             <div className="landing__content__main">
                 <img src={DogsLogo} alt="dogsLogo" />
@@ -21,13 +21,11 @@ const Landing = () => {
                     DOGS API
                 </div>
                 <div className="subtitle"> HENRY INDIVIDUAL PROJECT</div>
-                <Link to="/home" className='btn'>
-                    Iniciar
-                </Link>
+                <RouteButton text='Iniciar' route='home' />
             </div>
             <div className="landing__content__footer">
                 <div className="icons">
-                    <IconContext.Provider value={{ color: "black", size: "1.5rem"}}>
+                    <IconContext.Provider value={{ color: "black", size: "1.8rem"}}>
                         <SiPostgresql />
                         <SiExpress />
                         <FaReact />

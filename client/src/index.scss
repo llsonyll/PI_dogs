@@ -1,8 +1,12 @@
+
+$bg-color: #CBCBCB;
+
 body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: $bg-color;
 }
 
 code {

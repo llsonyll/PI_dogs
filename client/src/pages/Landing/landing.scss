@@ -13,34 +13,6 @@ $white: #fff;
     position: relative;
     background-color: $bg-color;
 
-    &__header {
-        position: absolute;
-        top: 0;
-        right: 0;
-        left: 0;
-        height: 67px;
-        background-color: $primary;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        &__img {
-            width: 200px;
-        }
-
-
-        &::after {
-            content: '';
-            position: absolute;
-            // width: 100%;
-            left: 0;
-            right: 0;
-            height: 20px;
-            bottom:-20px;
-            background-color: $primary-dark;
-        }
-    }
-
     &__content {
         &__main{
             display: flex;

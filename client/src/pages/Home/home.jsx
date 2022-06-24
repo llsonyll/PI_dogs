@@ -1,29 +1,70 @@
-import './home.scss';
+import "./home.scss";
 // import { Link } from "react-router-dom";
 
-import NavBar from '../../components/NavBar';
-import { useState } from 'react';
+import NavBar from "../../components/NavBar";
+import SearchBar from "../../components/SearchBar";
+import BreedCard from "../../components/BreedCard";
+import { breeds } from "../../constants/data";
+import { useState } from "react";
 
 // Icons
-import { MdDoubleArrow } from "react-icons/md";
-
+import { MdDoubleArrow, MdArrowRight, MdArrowLeft } from "react-icons/md";
 
 const Home = () => {
+  const [sbOpen, setSbOpen] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [page, setPage] = useState(1);
 
-    const [ sbOpen, setSbOpen ] = useState(true);
+  const handleNextPage = () => {
+    setPage(page + 1);
+  };
 
-    return <div className="home">
-        <NavBar landing={false} justify="space-between"/>
-        <div className="content">
-            <div className={sbOpen ? 'sidebar opened' : 'sidebar closed'}>
-                <button onClick={() => setSbOpen(!sbOpen)} className="sidebar__toggle">
-                    <MdDoubleArrow />
-                </button>
+  const handlePreviousPage = () => {
+    setPage(page - 1);
+  };
 
-            </div>
-            <div className="items"></div>
+  const handleSearchInput = async () => {};
+
+  return (
+    <div className="home">
+      <NavBar landing={false} justify="space-between" />
+      <div className="content">
+        <div className={sbOpen ? "sidebar opened" : "sidebar closed"}>
+          {/* <button
+            onClick={() => setSbOpen(!sbOpen)}
+            className="sidebar__toggle"
+          >
+            <MdDoubleArrow />
+          </button> */}
         </div>
+
+        <div className="main">
+          <SearchBar />
+          {isLoading ? (
+            <div className="loadingBox"></div>
+          ) : (
+            <div className="cardsContainer">
+              {breeds.map((breed) => {
+                return <BreedCard breed={breed} key={breed.id} />;
+              })}
+            </div>
+          )}
+          <div className="pagination">
+            <button
+              onClick={handlePreviousPage}
+              disabled={page <= 1 || isLoading}
+            >
+              <MdArrowLeft />
+            </button>
+            {page}
+            <button onClick={handleNextPage} disabled={isLoading}>
+              <MdArrowRight />
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
-}
+  );
+};
 
 export default Home;

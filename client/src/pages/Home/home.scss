@@ -8,7 +8,6 @@ $navbarHeight : 90px;
         height: calc(100vh - $navbarHeight);
         display: flex;
 
-
         .sidebar{
             height: 100%;
             background-color: #fff;
@@ -25,22 +24,32 @@ $navbarHeight : 90px;
             }
         }
 
-
-
         .opened {
             width: 300px;
         }
 
         .closed {
             width: 50px;
-
-
         }
 
-        .items {
+        .main {
             flex: 1;
-            background-color: red;
-            // border: 1px solid orange;
+            padding: 27px 50px;
+            overflow-y: scroll;
+            .cardsContainer {
+                align-items: center;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 40px 60px;
+                justify-content: center;
+            }
+
+            .pagination {
+                margin-top: 40px;
+                gap: 12px;
+                display: flex;
+                justify-content: center;
+            }
         }
     }
 }

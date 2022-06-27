@@ -6,7 +6,7 @@ import { IconContext } from "react-icons";
 
 const State = ({ success = true }) => {
   return (
-    <div class="state">
+    <div className="state">
       <div className="icon">
         <IconContext.Provider
           value={{ color: success ? "#00900E" : "#FF0000", size: "104px" }}

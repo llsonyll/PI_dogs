@@ -11,22 +11,40 @@ const DogAPI = axios.create({
   timeout: 5000,
 });
 
-export const getBreeds = () => {
+export const getBreeds = (page = 0) => {
   return function (dispatch) {
-    return DogAPI.get("dogs")
-      .then((response) => response.json())
-      .then((json) => {
-        dispatch({ type: GET_BREEDS, payload: json });
-      })
-      .catch((e) => console.log(e));
+    return (
+      DogAPI.get(`dogs?page=${page}`)
+        // .then((response) => response.json())
+        .then(({ data }) => {
+          dispatch({ type: GET_BREEDS, payload: data });
+        })
+        .catch((e) => console.log(e))
+    );
+  };
+};
+
+export const getBreedByName = (page = 0, name) => {
+  return function (dispatch) {
+    return (
+      DogAPI.get(`dogs?page=${page}&name=${name}`)
+        // .then((response) => response.json())
+        .then(({ data }) => {
+          dispatch({ type: GET_BREEDS, payload: data });
+        })
+        .catch((e) => console.log(e))
+    );
   };
 };
 
 export const getTemperaments = () => {
-  console.log("getTemperaments action");
   return async (dispatch) => {
-    const { data } = await DogAPI.get("temperaments");
-    dispatch({ type: GET_TEMPERAMENTS, payload: JSON.parse(data) });
+    try {
+      const { data } = await DogAPI.get("temperaments");
+      dispatch({ type: GET_TEMPERAMENTS, payload: data });
+    } catch (error) {
+      console.log(error);
+    }
   };
 };
 

@@ -18,13 +18,13 @@ const reducer = (state = initialState, action) => {
     case GET_BREEDS:
       return {
         ...state,
-        // moviesFavourites: state.moviesFavourites.concat(action.payload)
+        breeds: action.payload,
       };
 
     case GET_BREEDS_BY_NAME:
       return {
         ...state,
-        // moviesFavourites: state.moviesFavourites.concat(action.payload)
+        breeds: action.payload,
       };
 
     case CREATE_BREED:

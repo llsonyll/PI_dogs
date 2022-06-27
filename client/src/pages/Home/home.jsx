@@ -4,10 +4,11 @@ import "./home.scss";
 import NavBar from "../../components/NavBar";
 import SearchBar from "../../components/SearchBar";
 import BreedCard from "../../components/BreedCard";
-import { breeds } from "../../constants/data";
+import Spinner from "../../components/Spinner";
+// import { breeds } from "../../constants/data";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getTemperaments } from "../../actions";
+import { getTemperaments, getBreedByName, getBreeds } from "../../actions";
 
 // Icons
 import { MdDoubleArrow, MdArrowRight, MdArrowLeft } from "react-icons/md";
@@ -19,9 +20,9 @@ const Home = () => {
 
   const dispatch = useDispatch();
   const temperaments = useSelector((state) => state.temperaments);
+  const breeds = useSelector((state) => state.breeds);
 
   const handleNextPage = () => {
-    console.log(temperaments);
     setPage(page + 1);
   };
 
@@ -33,8 +34,15 @@ const Home = () => {
 
   useEffect(() => {
     console.log("dispatch home temperaments");
-    console.log(temperaments);
-  }, [temperaments]);
+    dispatch(getBreeds(page - 1));
+    dispatch(getTemperaments());
+  }, []);
+
+  useEffect(() => {
+    setIsLoading(true);
+    dispatch(getBreeds(page - 1));
+    setIsLoading(false);
+  }, [dispatch, page]);
 
   return (
     <div className="home">
@@ -52,7 +60,7 @@ const Home = () => {
         <div className="main">
           <SearchBar />
           {isLoading ? (
-            <div className="loadingBox"></div>
+            <Spinner />
           ) : (
             <div className="cardsContainer">
               {breeds.map((breed) => {

@@ -1,0 +1,24 @@
+.state {
+  background-color: #fff;
+  box-shadow: 4px 4px 10px rgba(0,0,0, .35);
+  padding: 16px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 8px;
+
+  text-align: center;
+
+  .title {
+    font-weight: bold;
+    font-size: 27px;
+  }
+
+  .message {
+    font-weight: 300;
+    font-size: 18px;
+  }
+}

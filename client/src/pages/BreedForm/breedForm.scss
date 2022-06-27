@@ -1,4 +1,9 @@
-.breedDetail {
+$navbarHeight : 90px;
+
+.breefForm {
+    
+    border: 1px solid red;
+    height: calc(100vh - $navbarHeight);
     padding-top: 100px;
     // display: flex;
     // justify-content: center;

@@ -44,6 +44,19 @@ $primary-dark : #c77800;
         }
     }
 
+    &__options {
+        &--desktop {
+            display: flex;
+            align-items:center;
+
+            .navlink {
+                text-decoration: none;
+                color: white;
+                margin-right: 12px;
+            }
+        }
+    }
+
     &__henry {
         width: 200px;
     }

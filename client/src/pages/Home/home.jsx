@@ -6,43 +6,53 @@ import SearchBar from "../../components/SearchBar";
 import BreedCard from "../../components/BreedCard";
 import Spinner from "../../components/Spinner";
 // import { breeds } from "../../constants/data";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getTemperaments, getBreedByName, getBreeds } from "../../actions";
+import {
+  getTemperaments,
+  getBreedByName,
+  getBreeds,
+  nextPage,
+  prevPage,
+} from "../../actions";
 
 // Icons
 import { MdDoubleArrow, MdArrowRight, MdArrowLeft } from "react-icons/md";
 
 const Home = () => {
   const [sbOpen, setSbOpen] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
-  const [page, setPage] = useState(1);
-
   const dispatch = useDispatch();
   const temperaments = useSelector((state) => state.temperaments);
   const breeds = useSelector((state) => state.breeds);
+  const page = useSelector((state) => state.page);
+  const loadingBreeds = useSelector((state) => state.loadingBreeds);
 
   const handleNextPage = () => {
-    setPage(page + 1);
+    dispatch(nextPage());
   };
 
   const handlePreviousPage = () => {
-    setPage(page - 1);
+    dispatch(prevPage());
   };
 
   const handleSearchInput = async () => {};
 
   useEffect(() => {
-    console.log("dispatch home temperaments");
-    dispatch(getBreeds(page - 1));
-    dispatch(getTemperaments());
+    if (breeds.length <= 0) {
+      // console.log(breeds.length);
+      dispatch(getBreeds(page - 1));
+    }
+
+    if (temperaments.length <= 0) {
+      // console.log(temperaments.length);
+      dispatch(getTemperaments());
+    }
   }, []);
 
   useEffect(() => {
-    setIsLoading(true);
+    console.log("page dispatch");
     dispatch(getBreeds(page - 1));
-    setIsLoading(false);
-  }, [dispatch, page]);
+  }, [page, dispatch]);
 
   return (
     <div className="home">
@@ -59,8 +69,10 @@ const Home = () => {
 
         <div className="main">
           <SearchBar />
-          {isLoading ? (
-            <Spinner />
+          {loadingBreeds ? (
+            <div className="loadingContainer">
+              <Spinner />
+            </div>
           ) : (
             <div className="cardsContainer">
               {breeds.map((breed) => {
@@ -71,12 +83,12 @@ const Home = () => {
           <div className="pagination">
             <button
               onClick={handlePreviousPage}
-              disabled={page <= 1 || isLoading}
+              disabled={page <= 1 || loadingBreeds}
             >
               <MdArrowLeft />
             </button>
             {page}
-            <button onClick={handleNextPage} disabled={isLoading}>
+            <button onClick={handleNextPage} disabled={loadingBreeds}>
               <MdArrowRight />
             </button>
           </div>

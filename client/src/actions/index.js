@@ -3,6 +3,7 @@ import axios from "axios";
 export const GET_BREEDS = "GET_BREEDS";
 export const GET_BREEDS_BY_NAME = "GET_BREEDS_BY_NAME";
 export const GET_BREED_BY_ID = "GET_BREED_BY_ID";
+export const CLEAN_BREED = "CLEAN_BREED";
 export const CREATE_BREED = "CREATE_BREED";
 export const FILTER_BREED = "FILTER_BREED";
 export const GET_TEMPERAMENTS = "GET_TEMPERAMENTS";
@@ -72,6 +73,10 @@ export const prevPage = () => {
   return {
     type: PREV_PAGE,
   };
+};
+
+export const cleanCurrentBreed = () => {
+  return { type: CLEAN_BREED };
 };
 
 // export const getBreeds = (page = 0) => {

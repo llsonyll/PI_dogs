@@ -8,6 +8,7 @@ import {
   SET_BREED_LOADING,
   NEXT_PAGE,
   PREV_PAGE,
+  CLEAN_BREED,
 } from "../actions";
 
 const initialState = {
@@ -70,6 +71,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         page: state.page - 1,
+      };
+    case CLEAN_BREED:
+      return {
+        ...state,
+        currentBreed: {},
       };
     default:
       return {

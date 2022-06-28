@@ -15,8 +15,13 @@ const BreedCard = ({ breed }) => {
     color: "#000",
   };
 
+  const isFromDogAPI = Object.keys(breed).length > 7;
+
   return (
-    <Link to={`/breed/${breed.id}`} style={linkStyle}>
+    <Link
+      to={`/breed/${breed.id}?isFromDogAPI=${isFromDogAPI}`}
+      style={linkStyle}
+    >
       <div className="breedCard">
         <img src={breed.image.url ?? ""} alt="breedImg" className="breedImg" />
         <div className="breedInfo">

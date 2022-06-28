@@ -3,41 +3,45 @@ import "./breedDetail.scss";
 
 import NavBar from "../../components/NavBar";
 import Spinner from "../../components/Spinner";
-import { breeds } from "../../constants/data";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getBreedById } from "../../actions";
-
-import { useParams } from "react-router-dom";
-
-const breed = breeds[0];
+import { getBreedById, cleanCurrentBreed } from "../../actions";
+import { useParams, useLocation } from "react-router-dom";
 
 const BreedDetail = () => {
-  const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
-  const currentBreed = useSelector((state) => state.currentBreed);
+  const breed = useSelector((state) => state.currentBreed);
 
   const { id } = useParams();
+  const { search } = useLocation();
+  console.log(search.split("=")[1]);
 
   useEffect(() => {
-    console.log("onMounted");
-    dispatch(getBreedById(id, true));
+    dispatch(getBreedById(id, search.split("=")[1] === "true"));
+    return () => {
+      dispatch(cleanCurrentBreed());
+    };
   }, []);
-
-  useEffect(() => {
-    console.log(currentBreed);
-  }, [currentBreed]);
 
   return (
     <div className="breedDetail">
       <NavBar landing={false} justify="space-between" title={`Breed Detail`} />
       <div className="content">
-        {loading ? (
-          <div className="loadingContainer"></div>
+        {Object.keys(breed).length <= 0 ? (
+          <div className="loadingContainer">
+            <Spinner />
+          </div>
         ) : (
           <>
             <div className="dogCard">
-              <img src={breed.image.url} alt="breedImg" />
+              <img
+                src={
+                  breed.reference_image_id
+                    ? `https://cdn2.thedogapi.com/images/${breed.reference_image_id}.jpg`
+                    : "https://image.shutterstock.com/shutterstock/photos/563030956/display_1500/stock-vector-vector-black-silhouette-of-a-dog-isolated-on-a-white-background-563030956.jpg"
+                }
+                alt="breedImg"
+              />
             </div>
             <div className="detailsCard">
               <div className="title"> {`Breed: ${breed.name}`} </div>

@@ -88,7 +88,10 @@ const Home = () => {
               <MdArrowLeft />
             </button>
             {page}
-            <button onClick={handleNextPage} disabled={loadingBreeds}>
+            <button
+              onClick={handleNextPage}
+              disabled={loadingBreeds || breeds.length < 8}
+            >
               <MdArrowRight />
             </button>
           </div>

@@ -5,8 +5,9 @@ import NavBar from "../../components/NavBar";
 import SearchBar from "../../components/SearchBar";
 import BreedCard from "../../components/BreedCard";
 import Spinner from "../../components/Spinner";
+import Pagination from "../../components/Pagination";
 // import { breeds } from "../../constants/data";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getTemperaments,
@@ -17,7 +18,7 @@ import {
 } from "../../actions";
 
 // Icons
-import { MdDoubleArrow, MdArrowRight, MdArrowLeft } from "react-icons/md";
+import { MdDoubleArrow } from "react-icons/md";
 
 const Home = () => {
   const [sbOpen, setSbOpen] = useState(true);
@@ -80,21 +81,13 @@ const Home = () => {
               })}
             </div>
           )}
-          <div className="pagination">
-            <button
-              onClick={handlePreviousPage}
-              disabled={page <= 1 || loadingBreeds}
-            >
-              <MdArrowLeft />
-            </button>
-            {page}
-            <button
-              onClick={handleNextPage}
-              disabled={loadingBreeds || breeds.length < 8}
-            >
-              <MdArrowRight />
-            </button>
-          </div>
+          <Pagination
+            handlePreviousPage={handlePreviousPage}
+            disablePrev={loadingBreeds}
+            handleNextPage={handleNextPage}
+            disableNext={loadingBreeds || breeds.length < 8}
+            page={page}
+          />
         </div>
       </div>
     </div>

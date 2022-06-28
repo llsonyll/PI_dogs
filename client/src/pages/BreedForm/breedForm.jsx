@@ -1,63 +1,175 @@
 import "./breedForm.scss";
 import NavBar from "../../components/NavBar";
+import Pagination from "../../components/Pagination";
 
-import { useState } from "react";
+import { useEffect, useState, useMemo } from "react";
+import { useSelector } from "react-redux";
 
 const BreedForm = () => {
   const [breed, setBreed] = useState({
     name: "",
-    minHeight: "",
-    maxHeight: "",
-    minWeight: "",
-    maxWeight: "",
+    minHeight: 0,
+    maxHeight: 0,
+    minWeight: 0,
+    maxWeight: 0,
     lifeTrail: "",
+    temperaments: [],
   });
 
-  const handleFormSubmit = () => {};
+  // const [ errors, setErrors ] = useState({ })
+
+  const [tempPage, setRempPage] = useState(1);
+
+  const stateTemperaments = useSelector((state) => state.temperaments);
+
+  const showTemperaments = useMemo(() => {
+    return stateTemperaments.slice(
+      tempPage === 1 ? 0 : (tempPage - 1) * 10,
+      tempPage * 10
+    );
+  }, [tempPage, stateTemperaments]);
+
+  const handlePrevPage = () => setRempPage(tempPage - 1);
+  const handleNextPage = () => setRempPage(tempPage + 1);
+
+  const handleInputChange = (e) => {
+    setBreed({
+      ...breed,
+      [e.target.name]:
+        e.target.type === "number" ? Number(e.target.value) : e.target.value,
+    });
+  };
+
+  const selectedTemperament = (temperament) =>
+    breed.temperaments.find((t) => t === temperament.name);
+
+  const handleTemperamentSelection = (temperament) => {
+    if (selectedTemperament(temperament)) {
+      setBreed({
+        ...breed,
+        temperaments: breed.temperaments.filter((t) => t !== temperament.name),
+      });
+      return;
+    }
+    setBreed({
+      ...breed,
+      temperaments: breed.temperaments.concat(temperament.name),
+    });
+  };
+
+  // const validateMaxMin = (e) => {
+
+  // }
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    console.log(breed);
+  };
 
   return (
     <div className="breedForm">
       <NavBar landing={false} justify="space-between" title="Breed Detail " />
       <div className="content">
-        <form submit={handleFormSubmit}>
+        <form onSubmit={handleFormSubmit}>
+          <h2> New breed </h2>
+
           <div className="textField">
             <label htmlFor="name"> Name </label>
-            <input type="text" name="name" />
+            <input type="text" name="name" onChange={handleInputChange} />
           </div>
 
           <div className="minmaxField">
-            <div className="title"> Altura(m) </div>
+            <div className="title"> Altura(centimetros) </div>
             <div className="fields">
               <div className="field">
                 <label htmlFor="minHeight"> Min </label>
-                <input type="text" name="minHeight" />
+                <input
+                  type="number"
+                  name="minHeight"
+                  min={15}
+                  max={100}
+                  onChange={handleInputChange}
+                />
               </div>
               <div className="field">
                 <label htmlFor="maxHeight"> Max </label>
-                <input type="text" name="maxHeight" />
+                <input
+                  type="number"
+                  name="maxHeight"
+                  min={20}
+                  max={110}
+                  onChange={handleInputChange}
+                />
               </div>
             </div>
           </div>
 
           <div className="minmaxField">
-            <div className="title"> Peso(kg) </div>
+            <div className="title"> Peso(kilogramos) </div>
             <div className="fields">
               <div className="field">
                 <label htmlFor="minWeight"> Min </label>
-                <input type="number" min={1} max={20} name="minWeight" />
+                <input
+                  type="number"
+                  min={1}
+                  max={40}
+                  name="minWeight"
+                  onChange={handleInputChange}
+                />
               </div>
               <div className="field">
                 <label htmlFor="maxWeight"> Max </label>
-                <input type="number" min={1} max={20} name="maxWeight" />
+                <input
+                  type="number"
+                  min={1}
+                  max={80}
+                  name="maxWeight"
+                  onChange={handleInputChange}
+                />
               </div>
             </div>
           </div>
 
           <div className="textField">
-            <label htmlFor="lifeTrail"> Life trail </label>
-            <input type="text" name="lifeTrail" />
+            <label htmlFor="lifeTrail"> Años de vida </label>
+            <input
+              type="number"
+              name="lifeTrail"
+              min={1}
+              max={15}
+              onChange={handleInputChange}
+            />
           </div>
+
+          <input type="submit" value="Enviar" />
         </form>
+
+        <div className="temperaments">
+          <div className="container">
+            {showTemperaments.map((temp) => {
+              return (
+                <div
+                  className={
+                    selectedTemperament(temp)
+                      ? "temperamentBox selected"
+                      : "temperamentBox"
+                  }
+                  key={temp.id}
+                  onClick={() => handleTemperamentSelection(temp)}
+                >
+                  {temp.name}
+                </div>
+              );
+            })}
+          </div>
+
+          <Pagination
+            handlePreviousPage={handlePrevPage}
+            handleNextPage={handleNextPage}
+            disableNext={showTemperaments.length < 10}
+            page={tempPage}
+          />
+        </div>
       </div>
     </div>
   );

@@ -1,26 +1,30 @@
 $navbarHeight : 90px;
 
-.breefForm {
-    
-    border: 1px solid red;
+.breedForm {
     height: calc(100vh - $navbarHeight);
-    padding-top: 100px;
-    // display: flex;
-    // justify-content: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     .content {
         background-color: #fff;
         box-shadow: 4px 4px 8px rgba(0,0,0,.25);
+        max-width: 500px;
+        min-width: 300px;
+
+        padding: 40px;
+        border-radius: 8px;
 
         .textField {
-            border: 1px solid blue;
+            // border: 1px solid blue;
+            width: 100%;
         }
 
         .minmaxField {
-            border: 1px solid red;
+            // border: 1px solid red;
 
             .title {
-                
+
             }
 
             .fields {
@@ -32,6 +36,36 @@ $navbarHeight : 90px;
                     }
                 }
             }
+        }
+
+        .temperaments{
+            margin-top: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            .container {
+                display: flex;
+                justify-content: center;
+                flex-wrap: wrap;
+                max-width: 300px;
+                .temperamentBox {
+                    margin-bottom: 4px;
+                    margin-right: 4px;
+                    border-radius: 8px;
+                    padding: 4px 8px;
+                    background-color: #fff;
+                    border: 1px solid #C66900;
+                    font-size: 14px;
+                }
+                .selected {
+                    border: none;
+                    color: white;
+                    background-color: #FF9800;
+                    font-weight: 500;
+                }
+            }
+
+
         }
     }
 }

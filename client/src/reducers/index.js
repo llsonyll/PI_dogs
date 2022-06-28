@@ -15,7 +15,9 @@ const initialState = {
   page: 1,
   breeds: [],
   loadingBreeds: false,
-  temperaments: [],
+  temperaments: localStorage.getItem("temperaments")
+    ? JSON.parse(localStorage.getItem("temperaments"))
+    : [],
   currentBreed: {},
 };
 

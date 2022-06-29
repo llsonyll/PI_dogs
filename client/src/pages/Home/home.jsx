@@ -40,12 +40,10 @@ const Home = () => {
 
   useEffect(() => {
     if (breeds.length <= 0) {
-      // console.log(breeds.length);
       dispatch(getBreeds(page - 1));
     }
 
     if (temperaments.length <= 0) {
-      // console.log(temperaments.length);
       dispatch(getTemperaments());
     }
   }, []);

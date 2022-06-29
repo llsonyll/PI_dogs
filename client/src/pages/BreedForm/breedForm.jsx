@@ -2,9 +2,13 @@ import "./breedForm.scss";
 import NavBar from "../../components/NavBar";
 import Pagination from "../../components/Pagination";
 
+import StateCard from "../../components/StateCard"
+
 import { useState, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { createBreed } from "../../actions";
+
+import { MdError } from "react-icons/md";
 
 const BreedForm = () => {
   const [breed, setBreed] = useState({
@@ -19,7 +23,12 @@ const BreedForm = () => {
 
   const dispatch = useDispatch();
 
-  // const [ errors, setErrors ] = useState({ })
+  const [ errors, setErrors ] = useState({
+    emptyFields : '',
+    creationError: ''
+   })
+
+   const [ creationState, setCreationState ] = useState('');
 
   const [tempPage, setRempPage] = useState(1);
 
@@ -66,6 +75,14 @@ const BreedForm = () => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+
+    if (breed.name.length <= 0 || breed.minHeight === 0 || breed.minWeight === 0 || breed.maxHeight === 0 || breed.maxWeight === 0) {
+      return setErrors({
+        ...errors,
+        emptyFields: `These fields are required: name(${breed.name.length <=0}), min-max height (${ breed.minHeight === 0 } - ${breed.maxHeight === 0}) and min-max weight (${ breed.minWeight === 0 } - ${breed.maxWeight === 0})`
+      })
+    }
+
     const { status, data } = await dispatch(
       createBreed({
         ...breed,
@@ -80,6 +97,7 @@ const BreedForm = () => {
     if (status === 201) {
       // Successfully created
 
+      setCreationState('successfull')
 
       setBreed({
         name: "",
@@ -92,14 +110,20 @@ const BreedForm = () => {
       })
     } else {
       // Error
-      console.log(data);
+      setCreationState('error')
+      setErrors({
+        ...errors,
+        creationError: data
+      })
     }
   };
 
   return (
     <div className="breedForm">
       <NavBar landing={false} justify="space-between" title="Breed Detail " />
-      <div className="content">
+
+      {
+        creationState === '' ?  <div className="content">
         <form onSubmit={handleFormSubmit}>
           <div className="formTitle"> New breed </div>
           <div className="textField">
@@ -116,8 +140,6 @@ const BreedForm = () => {
                   type="number"
                   name="minHeight"
                   value={breed.minHeight}
-                  // min={15}
-                  // max={100}
                   onChange={handleInputChange}
                 />
               </div>
@@ -127,8 +149,6 @@ const BreedForm = () => {
                   type="number"
                   name="maxHeight"
                   value={breed.maxHeight}
-                  // min={20}
-                  // max={110}
                   onChange={handleInputChange}
                 />
               </div>
@@ -143,8 +163,6 @@ const BreedForm = () => {
                 <input
                   type="number"
                   value={breed.minWeight}
-                  // min={1}
-                  // max={40}
                   name="minWeight"
                   onChange={handleInputChange}
                 />
@@ -154,8 +172,6 @@ const BreedForm = () => {
                 <input
                   type="number"
                   value={breed.maxWeight}
-                  // min={1}
-                  // max={80}
                   name="maxWeight"
                   onChange={handleInputChange}
                 />
@@ -172,6 +188,8 @@ const BreedForm = () => {
               onChange={handleInputChange}
             />
           </div>
+
+          { errors.emptyFields.length === 0 ? null : <span className="error"> <MdError /> {errors.emptyFields} </span> }
 
           <input className="submitBtn" type="submit" value="Enviar" />
         </form>
@@ -202,7 +220,10 @@ const BreedForm = () => {
             page={tempPage}
           />
         </div>
-      </div>
+      </div> : <StateCard success={ creationState === 'successfull' } /> 
+      }
+
+      
     </div>
   );
 };

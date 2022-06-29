@@ -45,7 +45,6 @@ export const getBreedById = (id, fromAPI = false) => {
   return async (dispatch) => {
     try {
       const { data } = await DogAPI.get(`dogs/${id}?fromDogAPI=${fromAPI}`);
-
       dispatch({ type: GET_BREED_BY_ID, payload: data });
     } catch (error) {
       console.log("getBreedById", error);
@@ -61,6 +60,29 @@ export const getTemperaments = () => {
       dispatch({ type: GET_TEMPERAMENTS, payload: data });
     } catch (error) {
       console.log("getTemperaments", error);
+    }
+  };
+};
+
+export const createBreed = (breed) => {
+  return async (dispatch) => {
+    try {
+      console.log(breed);
+
+      // name,
+      // maxHeight,
+      // minHeight,
+      // maxWeight,
+      // minWeight,
+      // lifeTrail,
+      // temperaments,
+
+      const data = await DogAPI.post("dogs", breed);
+      console.log(data);
+
+      // disp
+    } catch (error) {
+      console.log("createBreed", error);
     }
   };
 };

@@ -25,17 +25,15 @@ const getDogBreed = async (req, res) => {
             return {
               name: breed.name,
               id: breed.id,
-              life_span: breed.life_span,
+              life_span: breed.lifeSpan,
               temperament: breed.temperaments
                 .map((temp) => temp.name)
                 .join(", "),
               height: {
-                imperial: breed.maxHeight,
-                metric: breed.minHeight,
+                metric: `${breed.minHeight}-${breed.maxHeight}`,
               },
               weight: {
-                imperial: breed.maxWeight,
-                metric: breed.minWeight,
+                metric: `${breed.minWeight}-${breed.maxWeight}`,
               },
             };
           })
@@ -52,17 +50,15 @@ const getDogBreed = async (req, res) => {
               return {
                 name: breed.name,
                 id: breed.id,
-                life_span: breed.life_span,
+                life_span: breed.lifeSpan,
                 temperament: breed.temperaments
                   .map((temp) => temp.name)
                   .join(", "),
                 height: {
-                  imperial: breed.maxHeight,
-                  metric: breed.minHeight,
+                  metric: `${breed.minHeight}-${breed.maxHeight}`,
                 },
                 weight: {
-                  imperial: breed.maxWeight,
-                  metric: breed.minWeight,
+                  metric: `${breed.minWeight}-${breed.maxWeight}`,
                 },
               };
             })
@@ -92,15 +88,13 @@ const getDogBreed = async (req, res) => {
           return {
             name: breed.name,
             id: breed.id,
-            life_span: breed.life_span,
+            life_span: breed.lifeSpan,
             temperament: breed.temperaments.map((temp) => temp.name).join(", "),
             height: {
-              imperial: breed.maxHeight,
-              metric: breed.minHeight,
+              metric: `${breed.minHeight}-${breed.maxHeight}`,
             },
             weight: {
-              imperial: breed.maxWeight,
-              metric: breed.minWeight,
+              metric: `${breed.minWeight}-${breed.maxWeight}`,
             },
           };
         })
@@ -116,17 +110,15 @@ const getDogBreed = async (req, res) => {
             return {
               name: breed.name,
               id: breed.id,
-              life_span: breed.life_span,
+              life_span: breed.lifeSpan,
               temperament: breed.temperaments
                 .map((temp) => temp.name)
                 .join(", "),
               height: {
-                imperial: breed.maxHeight,
-                metric: breed.minHeight,
+                metric: `${breed.minHeight}-${breed.maxHeight}`,
               },
               weight: {
-                imperial: breed.maxWeight,
-                metric: breed.minWeight,
+                metric: `${breed.minWeight}-${breed.maxWeight}`,
               },
             };
           })
@@ -149,7 +141,7 @@ const getBreedById = async (req, res) => {
   }
 
   try {
-    if (fromDogAPI) {
+    if (fromDogAPI === "true") {
       const { data } = await DogAPI.get(`images/search?breed_id=${id}`);
       if (!data[0] || !data[0].breeds[0])
         return res
@@ -165,15 +157,13 @@ const getBreedById = async (req, res) => {
       return res.status(200).json({
         name: breed.name,
         id: breed.id,
-        life_span: breed.life_span,
+        life_span: breed.lifeSpan,
         temperament: breed.temperaments.map((temp) => temp.name).join(", "),
         height: {
-          imperial: breed.maxHeight,
-          metric: breed.minHeight,
+          metric: `${breed.minHeight}-${breed.maxHeight}`,
         },
         weight: {
-          imperial: breed.maxWeight,
-          metric: breed.minWeight,
+          metric: `${breed.minWeight}-${breed.maxWeight}`,
         },
       });
     }
@@ -190,15 +180,15 @@ const createDogBreed = async (req, res) => {
     minHeight,
     maxWeight,
     minWeight,
-    lifeTrail,
+    lifeSpan,
     temperaments,
   } = req.body;
 
-  if (!name || !lifeTrail) {
+  if (!name || !maxHeight | !minHeight | !maxWeight | !minWeight) {
     return res
       .status(404)
       .send(
-        `CREATE DOG BREED WITHOUT: name(${!!name}) and lifeTrail(${!!lifeTrail})`
+        `CREATE DOG BREED INFO NEEDED: name(${!!name}), height(min-${!!minHeight} max-${!!maxHeight}) and weight(min-${!!maxWeight} max-${!!minWeight}))`
       );
   }
 
@@ -209,10 +199,9 @@ const createDogBreed = async (req, res) => {
       minHeight,
       maxWeight,
       minWeight,
-      lifeTrail,
+      lifeSpan,
     });
 
-    // console.log(Object.keys(newBreed.__proto__));
     if (temperaments && temperaments.length > 0) {
       await newBreed.setTemperaments(temperaments);
     }

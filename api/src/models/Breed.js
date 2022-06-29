@@ -1,9 +1,9 @@
-const { DataTypes } = require('sequelize');
+const { DataTypes } = require("sequelize");
 // Exportamos una funcion que define el modelo
 // Luego le injectamos la conexion a sequelize.
 module.exports = (sequelize) => {
   // defino el modelo
-  sequelize.define('breed', {
+  sequelize.define("breed", {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -15,23 +15,23 @@ module.exports = (sequelize) => {
     },
     maxHeight: {
       type: DataTypes.FLOAT,
-      allowNull: true,
+      allowNull: false,
     },
     minHeight: {
       type: DataTypes.FLOAT,
-      allowNull: true,
+      allowNull: false,
     },
     maxWeight: {
       type: DataTypes.FLOAT,
-      allowNull: true,
+      allowNull: false,
     },
     minWeight: {
       type: DataTypes.FLOAT,
-      allowNull: true,
-    },
-    lifeTrail: {
-      type: DataTypes.STRING,
       allowNull: false,
+    },
+    lifeSpan: {
+      type: DataTypes.STRING,
+      allowNull: true,
     },
   });
 };

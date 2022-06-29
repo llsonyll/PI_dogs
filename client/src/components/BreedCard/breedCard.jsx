@@ -15,7 +15,10 @@ const BreedCard = ({ breed }) => {
     color: "#000",
   };
 
-  const isFromDogAPI = Object.keys(breed).length > 7;
+  const isFromDogAPI = Object.keys(breed).length !== 6;
+  const dogImage = breed.image
+    ? breed.image.url
+    : "https://image.shutterstock.com/shutterstock/photos/563030956/display_1500/stock-vector-vector-black-silhouette-of-a-dog-isolated-on-a-white-background-563030956.jpg";
 
   return (
     <Link
@@ -23,7 +26,7 @@ const BreedCard = ({ breed }) => {
       style={linkStyle}
     >
       <div className="breedCard">
-        <img src={breed.image.url ?? ""} alt="breedImg" className="breedImg" />
+        <img src={dogImage} alt="breedImg" className="breedImg" />
         <div className="breedInfo">
           <div className="name"> {breed.name}</div>
           <div className="weight"> {breed.weight.metric}kg </div>

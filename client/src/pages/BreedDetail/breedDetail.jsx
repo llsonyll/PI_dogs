@@ -51,11 +51,11 @@ const BreedDetail = () => {
               </div>
               <div className="detailRow">
                 <div className="subtitle"> Height </div>
-                <div className="text"> {breed.height.imperial}</div>
+                <div className="text"> {breed.height.metric} cm</div>
               </div>
               <div className="detailRow">
                 <div className="subtitle"> Weight </div>
-                <div className="text"> {breed.weight.imperial}</div>
+                <div className="text"> {breed.weight.metric} kg</div>
               </div>
             </div>
           </>

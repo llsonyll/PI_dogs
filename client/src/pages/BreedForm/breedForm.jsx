@@ -2,8 +2,9 @@ import "./breedForm.scss";
 import NavBar from "../../components/NavBar";
 import Pagination from "../../components/Pagination";
 
-import { useEffect, useState, useMemo } from "react";
-import { useSelector } from "react-redux";
+import { useState, useMemo } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { createBreed } from "../../actions";
 
 const BreedForm = () => {
   const [breed, setBreed] = useState({
@@ -12,9 +13,11 @@ const BreedForm = () => {
     maxHeight: 0,
     minWeight: 0,
     maxWeight: 0,
-    lifeTrail: "",
+    lifeSpan: "",
     temperaments: [],
   });
+
+  const dispatch = useDispatch();
 
   // const [ errors, setErrors ] = useState({ })
 
@@ -41,19 +44,19 @@ const BreedForm = () => {
   };
 
   const selectedTemperament = (temperament) =>
-    breed.temperaments.find((t) => t === temperament.name);
+    breed.temperaments.find((t) => t.id === temperament.id);
 
   const handleTemperamentSelection = (temperament) => {
     if (selectedTemperament(temperament)) {
       setBreed({
         ...breed,
-        temperaments: breed.temperaments.filter((t) => t !== temperament.name),
+        temperaments: breed.temperaments.filter((t) => t.id !== temperament.id),
       });
       return;
     }
     setBreed({
       ...breed,
-      temperaments: breed.temperaments.concat(temperament.name),
+      temperaments: breed.temperaments.concat(temperament),
     });
   };
 
@@ -64,6 +67,16 @@ const BreedForm = () => {
   const handleFormSubmit = (e) => {
     e.preventDefault();
     console.log(breed);
+    dispatch(
+      createBreed({
+        ...breed,
+        lifeSpan:
+          breed.lifeSpan > 1
+            ? `${breed.lifeSpan} years`
+            : `${breed.lifeSpan} year`,
+        temperaments: breed.temperaments.map((t) => t.id),
+      })
+    );
   };
 
   return (
@@ -131,10 +144,10 @@ const BreedForm = () => {
           </div>
 
           <div className="textField">
-            <label htmlFor="lifeTrail"> Años de vida </label>
+            <label htmlFor="lifeSpan"> Años de vida </label>
             <input
               type="number"
-              name="lifeTrail"
+              name="lifeSpan"
               min={1}
               max={15}
               onChange={handleInputChange}
@@ -145,7 +158,7 @@ const BreedForm = () => {
         </form>
 
         <div className="temperaments">
-          <div className="container">
+          <div className="container ">
             {showTemperaments.map((temp) => {
               return (
                 <div

@@ -77,7 +77,9 @@ const Home = () => {
           ) : (
             <div className="cardsContainer">
               {breeds.map((breed) => {
-                return <BreedCard breed={breed} key={breed.id} />;
+                return (
+                  <BreedCard breed={breed} key={`${breed.id}-${breed.name}`} />
+                );
               })}
             </div>
           )}

@@ -6,8 +6,8 @@ import SearchBar from "../../components/SearchBar";
 import BreedCard from "../../components/BreedCard";
 import Spinner from "../../components/Spinner";
 import Pagination from "../../components/Pagination";
-// import { breeds } from "../../constants/data";
-import { useState, useEffect } from "react";
+import Sidebar from "../../components/SideBar";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getTemperaments,
@@ -17,11 +17,7 @@ import {
   prevPage,
 } from "../../actions";
 
-// Icons
-import { MdDoubleArrow } from "react-icons/md";
-
 const Home = () => {
-  const [sbOpen, setSbOpen] = useState(true);
   const dispatch = useDispatch();
   const temperaments = useSelector((state) => state.temperaments);
   const breeds = useSelector((state) => state.breeds);
@@ -57,14 +53,7 @@ const Home = () => {
     <div className="home">
       <NavBar landing={false} justify="space-between" />
       <div className="content">
-        <div className={sbOpen ? "sidebar opened" : "sidebar closed"}>
-          <button
-            onClick={() => setSbOpen(!sbOpen)}
-            className="sidebar__toggle"
-          >
-            <MdDoubleArrow />
-          </button>
-        </div>
+        <Sidebar />
 
         <div className="main">
           <SearchBar />

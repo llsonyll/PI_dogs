@@ -1,5 +1,54 @@
-.searchBar {
-    width: 500px;
-    height : 100px; 
-    border: 1px solid blue;
+.sideBar{
+    background-color: #fff;
+    position: relative;
+    // border: 1px solid red;
+    // transition: .6s ease-in;
+    box-shadow: 4px 0px 8px rgba(0, 0, 0, .25);
+
+    padding: 50px 8px 20px 8px;
+
+    &__toggle {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+    }
+
+    &__desktop {
+        height: 100%;
+        // display: flex;
+        overflow-x: hidden;
+        overflow-y: auto;
+
+        &__content {
+            border: 1px solid blue;
+
+            .title {
+                 font-size: 21px;
+                 font-weight: normal;
+                 margin-bottom: 16px;
+            }
+
+            .filters {                
+                .filter {
+                    display: flex;
+                    flex-direction: column;
+
+                    .name {
+                        font-size: 18px;
+                        font-weight: normal;
+                    }
+                }
+            }
+        }
+        
+    }
+    
+}
+
+.opened {
+    width: 300px;
+}
+
+.closed {
+    width: 50px;
 }

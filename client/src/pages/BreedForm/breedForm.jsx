@@ -13,7 +13,7 @@ const BreedForm = () => {
     maxHeight: 0,
     minWeight: 0,
     maxWeight: 0,
-    lifeSpan: "",
+    lifeSpan: 0,
     temperaments: [],
   });
 
@@ -64,10 +64,9 @@ const BreedForm = () => {
 
   // }
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    console.log(breed);
-    dispatch(
+    const { status, data } = await dispatch(
       createBreed({
         ...breed,
         lifeSpan:
@@ -77,6 +76,24 @@ const BreedForm = () => {
         temperaments: breed.temperaments.map((t) => t.id),
       })
     );
+
+    if (status === 201) {
+      // Successfully created
+
+
+      setBreed({
+        name: "",
+        minHeight: 0,
+        maxHeight: 0,
+        minWeight: 0,
+        maxWeight: 0,
+        lifeSpan: "",
+        temperaments: [],
+      })
+    } else {
+      // Error
+      console.log(data);
+    }
   };
 
   return (
@@ -84,11 +101,10 @@ const BreedForm = () => {
       <NavBar landing={false} justify="space-between" title="Breed Detail " />
       <div className="content">
         <form onSubmit={handleFormSubmit}>
-          <h2> New breed </h2>
-
+          <div className="formTitle"> New breed </div>
           <div className="textField">
-            <label htmlFor="name"> Name </label>
-            <input type="text" name="name" onChange={handleInputChange} />
+            <label htmlFor="name"> Nombre </label>
+            <input type="text" name="name" value={breed.name} onChange={handleInputChange} />
           </div>
 
           <div className="minmaxField">
@@ -99,8 +115,9 @@ const BreedForm = () => {
                 <input
                   type="number"
                   name="minHeight"
-                  min={15}
-                  max={100}
+                  value={breed.minHeight}
+                  // min={15}
+                  // max={100}
                   onChange={handleInputChange}
                 />
               </div>
@@ -109,8 +126,9 @@ const BreedForm = () => {
                 <input
                   type="number"
                   name="maxHeight"
-                  min={20}
-                  max={110}
+                  value={breed.maxHeight}
+                  // min={20}
+                  // max={110}
                   onChange={handleInputChange}
                 />
               </div>
@@ -124,8 +142,9 @@ const BreedForm = () => {
                 <label htmlFor="minWeight"> Min </label>
                 <input
                   type="number"
-                  min={1}
-                  max={40}
+                  value={breed.minWeight}
+                  // min={1}
+                  // max={40}
                   name="minWeight"
                   onChange={handleInputChange}
                 />
@@ -134,8 +153,9 @@ const BreedForm = () => {
                 <label htmlFor="maxWeight"> Max </label>
                 <input
                   type="number"
-                  min={1}
-                  max={80}
+                  value={breed.maxWeight}
+                  // min={1}
+                  // max={80}
                   name="maxWeight"
                   onChange={handleInputChange}
                 />
@@ -148,13 +168,12 @@ const BreedForm = () => {
             <input
               type="number"
               name="lifeSpan"
-              min={1}
-              max={15}
+              value={breed.lifeSpan}
               onChange={handleInputChange}
             />
           </div>
 
-          <input type="submit" value="Enviar" />
+          <input className="submitBtn" type="submit" value="Enviar" />
         </form>
 
         <div className="temperaments">

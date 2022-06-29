@@ -9,33 +9,75 @@ $navbarHeight : 90px;
     .content {
         background-color: #fff;
         box-shadow: 4px 4px 8px rgba(0,0,0,.25);
+        padding: 20px;
+        border-radius: 8px;
         max-width: 500px;
         min-width: 300px;
+        margin: 8px;
 
-        padding: 40px;
-        border-radius: 8px;
+        input {
+            padding: 4px 8px;
+        }
+
+        .formTitle{
+            font-size: 24px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            text-align: center;
+        }
 
         .textField {
-            // border: 1px solid blue;
-            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: stretch;
+            margin-bottom: 12px;
+
+            label  {
+                font-weight: 600;
+            }
         }
 
         .minmaxField {
-            // border: 1px solid red;
 
             .title {
-
+                font-weight: 600;
             }
 
             .fields {
                 display: flex;
+                gap: 12px;
 
                 .field {
-                    input {
-                        width: 65px;
-                    }
+                    margin-bottom: 12px;
+                    flex: 1;
+                    display: flex;
+                    flex-direction: column;
+                    // justify-content: stretch;
                 }
             }
+            
+            @media screen and (max-width: 440px) {
+                .fields {
+                    display: block;
+                }
+            }
+        }
+
+        .submitBtn{
+            width: 100%;
+            margin: 12px 0;
+            background-color: #FF9800;
+            color: white;
+            border-radius: 8px;
+            box-shadow: 4px 4px 8px rgba(0,0,0, .25);
+            padding: 8px 12px;
+            border: none;
+
+            font-weight: 600;
+            font-size: 18px;
+
+            cursor: pointer;
+
         }
 
         .temperaments{
@@ -47,7 +89,6 @@ $navbarHeight : 90px;
                 display: flex;
                 justify-content: center;
                 flex-wrap: wrap;
-                max-width: 300px;
                 .temperamentBox {
                     margin-bottom: 4px;
                     margin-right: 4px;

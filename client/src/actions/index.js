@@ -67,22 +67,16 @@ export const getTemperaments = () => {
 export const createBreed = (breed) => {
   return async (dispatch) => {
     try {
-      console.log(breed);
-
-      // name,
-      // maxHeight,
-      // minHeight,
-      // maxWeight,
-      // minWeight,
-      // lifeTrail,
-      // temperaments,
-
-      const data = await DogAPI.post("dogs", breed);
-      console.log(data);
-
-      // disp
-    } catch (error) {
-      console.log("createBreed", error);
+      const { status, data } = await DogAPI.post("dogs", breed);
+      return {
+        status,
+        data,
+      };
+    } catch ({ response }) {
+      return {
+        status: response.status,
+        data: response.data,
+      };
     }
   };
 };

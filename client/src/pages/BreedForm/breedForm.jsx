@@ -3,6 +3,7 @@ import NavBar from "../../components/NavBar";
 import Pagination from "../../components/Pagination";
 
 import StateCard from "../../components/StateCard"
+import Spinner from "../../components/Spinner"
 
 import { useState, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -28,7 +29,9 @@ const BreedForm = () => {
     creationError: ''
    })
 
-   const [ creationState, setCreationState ] = useState('');
+  const [ creationState, setCreationState ] = useState('');
+
+  const [ loading, setLoading ] = useState(false);
 
   const [tempPage, setRempPage] = useState(1);
 
@@ -83,6 +86,8 @@ const BreedForm = () => {
       })
     }
 
+    setLoading(true);
+
     const { status, data } = await dispatch(
       createBreed({
         ...breed,
@@ -93,6 +98,8 @@ const BreedForm = () => {
         temperaments: breed.temperaments.map((t) => t.id),
       })
     );
+
+    setLoading(false);
 
     if (status === 201) {
       // Successfully created
@@ -123,7 +130,7 @@ const BreedForm = () => {
       <NavBar landing={false} justify="space-between" title="Breed Detail " />
 
       {
-        creationState === '' ?  <div className="content">
+        creationState === '' ? loading ? <Spinner /> : <div className="content">
         <form onSubmit={handleFormSubmit}>
           <div className="formTitle"> New breed </div>
           <div className="textField">
@@ -220,7 +227,7 @@ const BreedForm = () => {
             page={tempPage}
           />
         </div>
-      </div> : <StateCard success={ creationState === 'successfull' } /> 
+      </div>  : <StateCard success={ creationState === 'successfull' } /> 
       }
 
       

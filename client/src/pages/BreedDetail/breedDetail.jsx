@@ -11,10 +11,8 @@ import { useParams, useLocation } from "react-router-dom";
 const BreedDetail = () => {
   const dispatch = useDispatch();
   const breed = useSelector((state) => state.currentBreed);
-
   const { id } = useParams();
   const { search } = useLocation();
-  console.log(search.split("=")[1]);
 
   useEffect(() => {
     dispatch(getBreedById(id, search.split("=")[1] === "true"));

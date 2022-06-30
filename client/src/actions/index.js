@@ -81,10 +81,13 @@ export const createBreed = (breed) => {
   };
 };
 
-export const filterBreeds = (filters) => {
+export const filterBreeds = ({ filters, myBreedsFilter: myBreeds }) => {
   return {
     type: FILTER_BREED,
-    payload: filters,
+    payload: {
+      filters,
+      myBreeds,
+    },
   };
 };
 

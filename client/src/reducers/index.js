@@ -18,8 +18,16 @@ const initialState = {
   temperaments: localStorage.getItem("temperaments")
     ? JSON.parse(localStorage.getItem("temperaments"))
     : [],
+  filters: {
+    breedFilters: [],
+    myBreedsFilter: false,
+  },
   filtersActive: false,
   filteredBreeds: [],
+  // filteredBreeds: {
+  //   breeds: [],
+  //   myBreeds: false,
+  // },
   currentBreed: {},
 };
 
@@ -31,44 +39,55 @@ const reducer = (state = initialState, action) => {
         breeds: action.payload,
         loadingBreeds: false,
       };
-
     case GET_BREEDS_BY_NAME:
       return {
         ...state,
         breeds: action.payload,
       };
-
     case GET_BREED_BY_ID:
       return {
         ...state,
         currentBreed: action.payload,
       };
-
     case CREATE_BREED:
       return {
         ...state,
         // moviesFavourites: state.moviesFavourites.concat(action.payload)
       };
-
     case FILTER_BREED:
-      const filtered = state.breeds.filter((breed) => {
-        if (!breed.temperament) return false;
-        return (
-          breed.temperament.split(", ").filter((t) => {
-            return !!action.payload.find((filter) => {
-              return filter.name === t;
-            });
-          }).length > 0
-        );
-      });
+      const { myBreeds, filters } = action.payload;
+      const filtered = state.breeds
+        .filter((breed) => {
+          if (myBreeds) {
+            return Object.keys(breed).length === 6;
+          }
+          return true;
+        })
+        .filter((breed) => {
+          if (myBreeds && filters.length === 0) return true;
+          if (!breed.temperament) return false;
+          return (
+            breed.temperament.split(", ").filter((t) => {
+              return !!filters.find((filter) => {
+                return filter.name === t;
+              });
+            }).length > 0
+          );
+        });
 
       return {
         ...state,
-        // moviesFavourites: state.moviesFavourites.concat(action.payload)
-        filtersActive: action.payload.length > 0,
+        filtersActive: filters.length > 0 || myBreeds,
         filteredBreeds: filtered,
+        // filteredBreeds: {
+        //   breeds: filtered,
+        //   myBreeds,
+        // },
+        filters: {
+          breedFilters: filters,
+          myBreedsFilter: myBreeds,
+        },
       };
-
     case GET_TEMPERAMENTS:
       return {
         ...state,

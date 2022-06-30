@@ -19,7 +19,7 @@ const BreedDetail = () => {
     return () => {
       dispatch(cleanCurrentBreed());
     };
-  }, []);
+  }, [dispatch, id, search]);
 
   return (
     <div className="breedDetail">

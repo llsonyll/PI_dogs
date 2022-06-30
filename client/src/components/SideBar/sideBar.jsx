@@ -1,34 +1,53 @@
 import "./sideBar.scss";
 import Spinner from "../Spinner";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { MdDoubleArrow } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { filterBreeds } from "../../actions";
 
 const SideBar = () => {
   const [sbOpen, setSbOpen] = useState(true);
-  const [filters, setFilters] = useState([]);
+
   const dispatch = useDispatch();
-  const temperaments = useSelector((state) =>
-    state.temperaments.sort((a, b) => a.name.localeCompare(b.name))
+  const { breedFilters: filters, myBreedsFilter } = useSelector(
+    (state) => state.filters
   );
+
+  const temperaments = useSelector((state) =>
+    state.temperaments
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .map((t) => {
+        const isActive = filters.find((filter) => filter.id === t.id);
+        return {
+          ...t,
+          selected: !!isActive,
+        };
+      })
+  );
+
+  const handleCheckInput = (e, temperament) => {
+    if (e.target.checked) {
+      dispatch(
+        filterBreeds({ filters: [...filters, temperament], myBreedsFilter })
+      );
+    } else {
+      dispatch(
+        filterBreeds({
+          filters: filters.filter((t) => t.id !== temperament.id),
+          myBreedsFilter,
+        })
+      );
+    }
+  };
+
+  const handleMyBreedsFilter = (e) => {
+    dispatch(filterBreeds({ filters, myBreedsFilter: e.target.checked }));
+  };
 
   const sideBarContentStyle = {
     justifyContent: temperaments.length > 0 ? "flex-start" : "center",
     alignItems: temperaments.length > 0 ? "flex-start" : "center",
   };
-
-  const handleCheckInput = (e, temperament) => {
-    if (e.target.checked) {
-      setFilters([...filters, temperament]);
-    } else {
-      setFilters(filters.filter((t) => t.id !== temperament.id));
-    }
-  };
-
-  useEffect(() => {
-    dispatch(filterBreeds(filters));
-  }, [filters, dispatch]);
 
   return (
     <div className={sbOpen ? "sideBar opened" : "sideBar closed"}>
@@ -42,13 +61,18 @@ const SideBar = () => {
               <MdDoubleArrow />
             </button>
 
-            <div className="title">Filtrar Contenido</div>
+            <div className="title">Filtros </div>
 
             <div className="filters">
               <div className="filter">
                 <div className="name">Mis Razas</div>
                 <label htmlFor="">
-                  <input type="checkbox" /> Raza personalizada
+                  <input
+                    type="checkbox"
+                    checked={myBreedsFilter}
+                    onChange={handleMyBreedsFilter}
+                  />
+                  Raza personalizada
                 </label>
               </div>
 
@@ -59,6 +83,7 @@ const SideBar = () => {
                     <label htmlFor="" key={t.id}>
                       <input
                         type="checkbox"
+                        checked={t.selected}
                         onChange={(e) => handleCheckInput(e, t)}
                       />
                       {t.name}

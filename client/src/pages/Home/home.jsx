@@ -11,20 +11,21 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getTemperaments,
-  getBreedByName,
+  // getBreedByName,
   getBreeds,
   nextPage,
   prevPage,
+  filterBreeds,
 } from "../../actions";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const temperaments = useSelector((state) => state.temperaments);
   const breeds = useSelector((state) => state.breeds);
   const filtersActive = useSelector((state) => state.filtersActive);
   const filteredBreeds = useSelector((state) => state.filteredBreeds);
-  const page = useSelector((state) => state.page);
   const loadingBreeds = useSelector((state) => state.loadingBreeds);
+  const page = useSelector((state) => state.page);
+  // const page = useMemo(useSelector((state) => state.page), loadingBreeds);
 
   const handleNextPage = () => {
     dispatch(nextPage());
@@ -34,21 +35,20 @@ const Home = () => {
     dispatch(prevPage());
   };
 
-  const handleSearchInput = async () => {};
+  // const handleSearchInput = async () => {};
 
   useEffect(() => {
-    if (breeds.length <= 0) {
+    if (breeds.length === 0) {
+      console.log("initDispatch");
       dispatch(getBreeds(page - 1));
-    }
-
-    if (temperaments.length <= 0) {
       dispatch(getTemperaments());
     }
-  }, []);
+  }, [breeds, dispatch, page]);
 
   useEffect(() => {
-    console.log("page dispatch");
+    console.log("page useEffect", page);
     dispatch(getBreeds(page - 1));
+    dispatch(filterBreeds({ filters: [], myBreedsFilter: false }));
   }, [page, dispatch]);
 
   return (
@@ -67,8 +67,7 @@ const Home = () => {
             <div className="cardsContainer">
               {filtersActive && filteredBreeds.length === 0 ? (
                 <div className="">
-                  {" "}
-                  No hay razas con los temperamentos seleccionados{" "}
+                  No hay razas con los filtros seleccionados
                 </div>
               ) : !filtersActive && filteredBreeds.length === 0 ? (
                 breeds.map((breed) => {

@@ -1,5 +1,4 @@
 import {
-  CREATE_BREED,
   FILTER_BREED,
   GET_BREEDS,
   GET_BREEDS_BY_NAME,
@@ -24,10 +23,6 @@ const initialState = {
   },
   filtersActive: false,
   filteredBreeds: [],
-  // filteredBreeds: {
-  //   breeds: [],
-  //   myBreeds: false,
-  // },
   currentBreed: {},
 };
 
@@ -48,11 +43,6 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         currentBreed: action.payload,
-      };
-    case CREATE_BREED:
-      return {
-        ...state,
-        // moviesFavourites: state.moviesFavourites.concat(action.payload)
       };
     case FILTER_BREED:
       const { myBreeds, filters } = action.payload;
@@ -77,12 +67,15 @@ const reducer = (state = initialState, action) => {
 
       return {
         ...state,
+        temperaments: state.temperaments.map((t) => {
+          const isActive = filters.find((filter) => filter.id === t.id);
+          return {
+            ...t,
+            selected: !!isActive,
+          };
+        }),
         filtersActive: filters.length > 0 || myBreeds,
         filteredBreeds: filtered,
-        // filteredBreeds: {
-        //   breeds: filtered,
-        //   myBreeds,
-        // },
         filters: {
           breedFilters: filters,
           myBreedsFilter: myBreeds,

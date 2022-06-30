@@ -7,22 +7,14 @@ import { filterBreeds } from "../../actions";
 
 const SideBar = () => {
   const [sbOpen, setSbOpen] = useState(true);
-
   const dispatch = useDispatch();
+
   const { breedFilters: filters, myBreedsFilter } = useSelector(
     (state) => state.filters
   );
 
   const temperaments = useSelector((state) =>
-    state.temperaments
-      .sort((a, b) => a.name.localeCompare(b.name))
-      .map((t) => {
-        const isActive = filters.find((filter) => filter.id === t.id);
-        return {
-          ...t,
-          selected: !!isActive,
-        };
-      })
+    state.temperaments.sort((a, b) => a.name.localeCompare(b.name))
   );
 
   const handleCheckInput = (e, temperament) => {

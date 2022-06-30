@@ -18,6 +18,8 @@ const initialState = {
   temperaments: localStorage.getItem("temperaments")
     ? JSON.parse(localStorage.getItem("temperaments"))
     : [],
+  filtersActive: false,
+  filteredBreeds: [],
   currentBreed: {},
 };
 
@@ -49,9 +51,22 @@ const reducer = (state = initialState, action) => {
       };
 
     case FILTER_BREED:
+      const filtered = state.breeds.filter((breed) => {
+        if (!breed.temperament) return false;
+        return (
+          breed.temperament.split(", ").filter((t) => {
+            return !!action.payload.find((filter) => {
+              return filter.name === t;
+            });
+          }).length > 0
+        );
+      });
+
       return {
         ...state,
         // moviesFavourites: state.moviesFavourites.concat(action.payload)
+        filtersActive: action.payload.length > 0,
+        filteredBreeds: filtered,
       };
 
     case GET_TEMPERAMENTS:

@@ -81,6 +81,13 @@ export const createBreed = (breed) => {
   };
 };
 
+export const filterBreeds = (filters) => {
+  return {
+    type: FILTER_BREED,
+    payload: filters,
+  };
+};
+
 export const nextPage = () => {
   return {
     type: NEXT_PAGE,

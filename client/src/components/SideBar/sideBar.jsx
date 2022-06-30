@@ -1,18 +1,34 @@
 import "./sideBar.scss";
 import Spinner from "../Spinner";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MdDoubleArrow } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
+import { filterBreeds } from "../../actions";
 
 const SideBar = () => {
   const [sbOpen, setSbOpen] = useState(true);
+  const [filters, setFilters] = useState([]);
   const dispatch = useDispatch();
-  const temperaments = useSelector((state) => state.temperaments);
+  const temperaments = useSelector((state) =>
+    state.temperaments.sort((a, b) => a.name.localeCompare(b.name))
+  );
 
   const sideBarContentStyle = {
     justifyContent: temperaments.length > 0 ? "flex-start" : "center",
     alignItems: temperaments.length > 0 ? "flex-start" : "center",
   };
+
+  const handleCheckInput = (e, temperament) => {
+    if (e.target.checked) {
+      setFilters([...filters, temperament]);
+    } else {
+      setFilters(filters.filter((t) => t.id !== temperament.id));
+    }
+  };
+
+  useEffect(() => {
+    dispatch(filterBreeds(filters));
+  }, [filters, dispatch]);
 
   return (
     <div className={sbOpen ? "sideBar opened" : "sideBar closed"}>
@@ -41,7 +57,11 @@ const SideBar = () => {
                 {temperaments.map((t) => {
                   return (
                     <label htmlFor="" key={t.id}>
-                      <input type="checkbox" /> {t.name}
+                      <input
+                        type="checkbox"
+                        onChange={(e) => handleCheckInput(e, t)}
+                      />
+                      {t.name}
                     </label>
                   );
                 })}

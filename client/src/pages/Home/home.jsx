@@ -21,6 +21,8 @@ const Home = () => {
   const dispatch = useDispatch();
   const temperaments = useSelector((state) => state.temperaments);
   const breeds = useSelector((state) => state.breeds);
+  const filtersActive = useSelector((state) => state.filtersActive);
+  const filteredBreeds = useSelector((state) => state.filteredBreeds);
   const page = useSelector((state) => state.page);
   const loadingBreeds = useSelector((state) => state.loadingBreeds);
 
@@ -63,11 +65,30 @@ const Home = () => {
             </div>
           ) : (
             <div className="cardsContainer">
-              {breeds.map((breed) => {
-                return (
-                  <BreedCard breed={breed} key={`${breed.id}-${breed.name}`} />
-                );
-              })}
+              {filtersActive && filteredBreeds.length === 0 ? (
+                <div className="">
+                  {" "}
+                  No hay razas con los temperamentos seleccionados{" "}
+                </div>
+              ) : !filtersActive && filteredBreeds.length === 0 ? (
+                breeds.map((breed) => {
+                  return (
+                    <BreedCard
+                      breed={breed}
+                      key={`${breed.id}-${breed.name}`}
+                    />
+                  );
+                })
+              ) : (
+                filteredBreeds.map((breed) => {
+                  return (
+                    <BreedCard
+                      breed={breed}
+                      key={`${breed.id}-${breed.name}`}
+                    />
+                  );
+                })
+              )}
             </div>
           )}
           <Pagination

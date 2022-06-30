@@ -55,7 +55,7 @@ $navbarHeight : 90px;
                     // justify-content: stretch;
                 }
             }
-            
+
             @media screen and (max-width: 440px) {
                 .fields {
                     display: block;
@@ -82,6 +82,11 @@ $navbarHeight : 90px;
 
             cursor: pointer;
 
+        }
+
+        .submitBtn:disabled{
+            background-color: #808080;
+            cursor: not-allowed;
         }
 
         .temperaments{

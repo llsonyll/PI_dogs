@@ -46,25 +46,24 @@ const SideBar = () => {
       <div className="sideBar__desktop">
         {temperaments.length > 0 ? (
           <div className="sideBar__desktop__content">
-            <button
-              onClick={() => setSbOpen(!sbOpen)}
-              className="sideBar__toggle"
-            >
-              <MdDoubleArrow />
-            </button>
-
-            <div className="title">Filtros </div>
+            <div className="header">
+              <div className="title">Filtros </div>
+              {/* <button className="toggle" onClick={() => setSbOpen(!sbOpen)}>
+                <MdDoubleArrow />
+              </button> */}
+            </div>
 
             <div className="filters">
               <div className="filter">
                 <div className="name">Mis Razas</div>
-                <label htmlFor="">
+                <label className="container">
+                  Raza personalizada
                   <input
                     type="checkbox"
                     checked={myBreedsFilter}
                     onChange={handleMyBreedsFilter}
                   />
-                  Raza personalizada
+                  <span className="checkmark"></span>
                 </label>
               </div>
 
@@ -72,13 +71,14 @@ const SideBar = () => {
                 <div className="name">Temperamentos</div>
                 {temperaments.map((t) => {
                   return (
-                    <label htmlFor="" key={t.id}>
+                    <label key={t.id} className="container">
+                      {t.name}
                       <input
                         type="checkbox"
                         checked={t.selected}
                         onChange={(e) => handleCheckInput(e, t)}
                       />
-                      {t.name}
+                      <span className="checkmark"></span>
                     </label>
                   );
                 })}

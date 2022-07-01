@@ -1,50 +1,106 @@
-.sideBar{
-    background-color: #fff;
-    width: 300px;
-    position: relative;
-    box-shadow: 4px 0px 8px rgba(0, 0, 0, .25);
-    padding: 50px 8px 20px 8px;
+.sideBar {
+  background-color: #fff;
+  position: relative;
+  box-shadow: 4px 0px 8px rgba(0, 0, 0, 0.25);
+  padding: 18px 36px 18px 18px;
+  overflow-x: hidden;
+  overflow-y: auto;
 
-    &__toggle {
-        position: absolute;
-        top: 15px;
-        right: 15px;
-    }
+  &__desktop {
+    height: 100%;
 
-    &__desktop {
-        height: 100%;
-        overflow-x: hidden;
-        overflow-y: auto;
-
-        &__content {
-
-            .title {
-                 font-size: 21px;
-                 font-weight: normal;
-                 margin-bottom: 16px;
-            }
-
-            .filters {
-                .filter {
-                    display: flex;
-                    flex-direction: column;
-
-                    .name {
-                        font-size: 18px;
-                        font-weight: normal;
-                    }
-                }
-            }
+    &__content {
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 36px;
+        .title {
+          font-size: 21px;
+          font-weight: 700;
         }
+      }
 
+      .filters {
+        .filter {
+          .name {
+            font-size: 18px;
+            font-weight: 500;
+          }
+
+          .container {
+            display: block;
+            position: relative;
+            padding-left: 35px;
+            margin: 12px 0px;
+            cursor: pointer;
+            font-size: 18px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+
+            input {
+              position: absolute;
+              opacity: 0;
+              cursor: pointer;
+              height: 0;
+              width: 0;
+            }
+
+            .checkmark {
+              position: absolute;
+              top: 0;
+              left: 0;
+              height: 25px;
+              width: 25px;
+              background-color: #eee;
+
+              &::after {
+                content: "";
+                position: absolute;
+                display: none;
+              }
+
+              &::after {
+                left: 9px;
+                top: 5px;
+                width: 5px;
+                height: 10px;
+                border: solid white;
+                border-width: 0 3px 3px 0;
+                -webkit-transform: rotate(45deg);
+                -ms-transform: rotate(45deg);
+                transform: rotate(45deg);
+              }
+            }
+          }
+
+          .container:hover input ~ .checkmark {
+            background-color: #ccc;
+          }
+
+          .container input:checked ~ .checkmark {
+            background-color: #ff9800;
+          }
+
+          .container input:checked ~ .checkmark:after {
+            display: block;
+          }
+        }
+      }
+
+      input[type="checkbox"] {
+        border: 1px solid blue;
+      }
     }
-
+  }
 }
 
 .opened {
-    width: 300px;
+  width: 300px;
 }
 
 .closed {
-    width: 50px;
+  width: 50px;
 }

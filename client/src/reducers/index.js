@@ -13,7 +13,7 @@ import {
 const initialState = {
   page: 1,
   breeds: [],
-  loadingBreeds: false,
+  loadingBreeds: true,
   temperaments: localStorage.getItem("temperaments")
     ? JSON.parse(localStorage.getItem("temperaments"))
     : [],
@@ -33,11 +33,20 @@ const reducer = (state = initialState, action) => {
         ...state,
         breeds: action.payload,
         loadingBreeds: false,
+        filters: {
+          breedFilters: [],
+          myBreedsFilter: false,
+        },
       };
     case GET_BREEDS_BY_NAME:
       return {
         ...state,
         breeds: action.payload,
+        loadingBreeds: false,
+        filters: {
+          breedFilters: [],
+          myBreedsFilter: false,
+        },
       };
     case GET_BREED_BY_ID:
       return {

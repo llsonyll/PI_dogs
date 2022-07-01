@@ -7,25 +7,24 @@ import BreedCard from "../../components/BreedCard";
 import Spinner from "../../components/Spinner";
 import Pagination from "../../components/Pagination";
 import Sidebar from "../../components/SideBar";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getTemperaments,
-  // getBreedByName,
+  getBreedByName,
   getBreeds,
   nextPage,
   prevPage,
-  filterBreeds,
 } from "../../actions";
 
 const Home = () => {
   const dispatch = useDispatch();
+  const [searchCriteria, setSearchCriteria] = useState("");
   const breeds = useSelector((state) => state.breeds);
   const filtersActive = useSelector((state) => state.filtersActive);
   const filteredBreeds = useSelector((state) => state.filteredBreeds);
   const loadingBreeds = useSelector((state) => state.loadingBreeds);
   const page = useSelector((state) => state.page);
-  // const page = useMemo(useSelector((state) => state.page), loadingBreeds);
 
   const handleNextPage = () => {
     dispatch(nextPage());
@@ -35,7 +34,19 @@ const Home = () => {
     dispatch(prevPage());
   };
 
-  // const handleSearchInput = async () => {};
+  const handleSearchInput = (searchText) => {
+    if (searchCriteria === searchText) return;
+    setSearchCriteria(searchText);
+  };
+
+  useEffect(() => {
+    console.log("page useEffect", page);
+    if (searchCriteria === "") {
+      dispatch(getBreeds(page - 1));
+    } else {
+      dispatch(getBreedByName(page - 1, searchCriteria));
+    }
+  }, [searchCriteria, page, dispatch]);
 
   useEffect(() => {
     if (breeds.length === 0) {
@@ -45,12 +56,6 @@ const Home = () => {
     }
   }, [breeds, dispatch, page]);
 
-  useEffect(() => {
-    console.log("page useEffect", page);
-    dispatch(getBreeds(page - 1));
-    dispatch(filterBreeds({ filters: [], myBreedsFilter: false }));
-  }, [page, dispatch]);
-
   return (
     <div className="home">
       <NavBar landing={false} justify="space-between" />
@@ -58,7 +63,7 @@ const Home = () => {
         <Sidebar />
 
         <div className="main">
-          <SearchBar />
+          <SearchBar handleInput={handleSearchInput} />
           {loadingBreeds ? (
             <div className="loadingContainer">
               <Spinner />

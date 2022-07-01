@@ -29,14 +29,13 @@ export const getBreeds = (page = 0) => {
 
 export const getBreedByName = (page = 0, name) => {
   return function (dispatch) {
-    return (
-      DogAPI.get(`dogs?page=${page}&name=${name}`)
-        // .then((response) => response.json())
-        .then(({ data }) => {
-          dispatch({ type: GET_BREEDS, payload: data });
-        })
-        .catch((e) => console.log("getBreedByName", e))
-    );
+    return DogAPI.get(`dogs?page=${page}&name=${name}`)
+      .then(({ data }) => {
+        console.log(data);
+        dispatch({ type: SET_BREED_LOADING, payload: true });
+        dispatch({ type: GET_BREEDS, payload: data });
+      })
+      .catch((e) => console.log("getBreedByName", e));
   };
 };
 

@@ -1,12 +1,12 @@
 import "./sideBar.scss";
 import Spinner from "../Spinner";
-import { useState } from "react";
-import { MdDoubleArrow } from "react-icons/md";
+// import { useState } from "react";
+// import { MdDoubleArrow } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { filterBreeds } from "../../actions";
 
 const SideBar = () => {
-  const [sbOpen, setSbOpen] = useState(true);
+  // const [sbOpen, setSbOpen] = useState(true);
   const dispatch = useDispatch();
 
   const { breedFilters: filters, myBreedsFilter } = useSelector(

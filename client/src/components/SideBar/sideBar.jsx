@@ -36,14 +36,14 @@ const SideBar = () => {
     dispatch(filterBreeds({ filters, myBreedsFilter: e.target.checked }));
   };
 
-  const sideBarContentStyle = {
-    justifyContent: temperaments.length > 0 ? "flex-start" : "center",
-    alignItems: temperaments.length > 0 ? "flex-start" : "center",
-  };
+  // const sideBarContentStyle = {
+  //   justifyContent: temperaments.length > 0 ? "flex-start" : "center",
+  //   alignItems: temperaments.length > 0 ? "flex-start" : "center",
+  // };
 
   return (
-    <div className={sbOpen ? "sideBar opened" : "sideBar closed"}>
-      <div className="sideBar__desktop" style={sideBarContentStyle}>
+    <div className="sideBar">
+      <div className="sideBar__desktop">
         {temperaments.length > 0 ? (
           <div className="sideBar__desktop__content">
             <button

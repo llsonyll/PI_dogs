@@ -13,7 +13,6 @@ import RouteButton from "../../components/RouteButton";
 const Landing = () => {
   return (
     <div className="landing">
-      <NavBar />
       <div className="landing__content">
         <div className="landing__content__main">
           <img src={DogsLogo} alt="dogsLogo" />

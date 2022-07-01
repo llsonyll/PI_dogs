@@ -59,10 +59,8 @@ const Home = () => {
 
   return (
     <div className="home">
-      <NavBar landing={false} justify="space-between" />
       <div className="content">
         <Sidebar />
-
         <div className="main">
           <SearchBar handleInput={handleSearchInput} />
           {loadingBreeds ? (

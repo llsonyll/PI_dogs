@@ -21,21 +21,36 @@ export const getBreeds = (page = 0) => {
       dispatch({ type: SET_BREED_LOADING, payload: true });
       const { data } = await DogAPI.get(`dogs?page=${page}`);
       dispatch({ type: GET_BREEDS, payload: data });
-    } catch (error) {
-      console.log("getBreeds", error);
+      return {
+        data,
+      };
+    } catch (e) {
+      return {
+        error: {
+          name: "GetBreeds",
+          message: e.message,
+        },
+      };
     }
   };
 };
 
 export const getBreedByName = (name) => {
-  return function (dispatch) {
-    return DogAPI.get(`dogs?name=${name}`)
-      .then(({ data }) => {
-        console.log(data);
-        dispatch({ type: SET_BREED_LOADING, payload: true });
-        dispatch({ type: GET_BREEDS_BY_NAME, payload: data });
-      })
-      .catch((e) => console.log("getBreedByName", e));
+  return async function (dispatch) {
+    try {
+      const { data } = await DogAPI.get(`dogs?name=${name}`);
+      console.log(data);
+      dispatch({ type: SET_BREED_LOADING, payload: true });
+      dispatch({ type: GET_BREEDS_BY_NAME, payload: data });
+      return { data };
+    } catch (e) {
+      return {
+        error: {
+          name: "GetBreedByName",
+          message: e.message,
+        },
+      };
+    }
   };
 };
 
@@ -44,8 +59,14 @@ export const getBreedById = (id, fromAPI = false) => {
     try {
       const { data } = await DogAPI.get(`dogs/${id}?fromDogAPI=${fromAPI}`);
       dispatch({ type: GET_BREED_BY_ID, payload: data });
-    } catch (error) {
-      console.log("getBreedById", error);
+      return { data };
+    } catch (e) {
+      return {
+        error: {
+          name: "GetBreedById",
+          message: e.message,
+        },
+      };
     }
   };
 };
@@ -60,8 +81,14 @@ export const getTemperaments = () => {
         type: GET_TEMPERAMENTS,
         payload: parsedData,
       });
-    } catch (error) {
-      console.log("getTemperaments", error);
+      return { data };
+    } catch (e) {
+      return {
+        error: {
+          name: "getTemperaments",
+          message: e.message,
+        },
+      };
     }
   };
 };
@@ -76,8 +103,11 @@ export const createBreed = (breed) => {
       };
     } catch ({ response }) {
       return {
-        status: response.status,
-        data: response.data,
+        error: {
+          name: "createBreed",
+          status: response.status,
+          message: response.data,
+        },
       };
     }
   };

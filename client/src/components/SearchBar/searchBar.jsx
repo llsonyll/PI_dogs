@@ -14,7 +14,7 @@ const SearchBar = ({ placeholder = "Buscar Raza", handleInput }) => {
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       if (!sent) {
-        console.log("Input Delayed", input);
+        // console.log("Input Delayed", input);
         handleInput(input);
       }
     }, 1500);
@@ -24,7 +24,7 @@ const SearchBar = ({ placeholder = "Buscar Raza", handleInput }) => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    console.log("Input submitted", input);
+    // console.log("Input submitted", input);
     handleInput(input);
     setSent(true);
   };

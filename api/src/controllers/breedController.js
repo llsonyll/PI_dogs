@@ -67,24 +67,17 @@ const getDogBreed = async (req, res) => {
       }
     }
 
-    // const regex = new RegExp(name, 'i');
     const dbBreeds = await Breed.findAll({
-      offset: page === 0 ? 0 : page * LIMIT_DOGS,
-      limit: LIMIT_DOGS,
       where: {
         name: { [Op.iRegexp]: name },
       },
       include: Temperament,
     });
 
-    if (dbBreeds.length === 0) {
-      const { data: breeds } = await DogAPI.get(
-        `breeds/search?q=${name}&limit=${LIMIT_DOGS}&page=${page}`
-      );
-      return res.status(200).json(breeds);
-    } else if (dbBreeds.length === LIMIT_DOGS) {
-      return res.status(200).json(
-        dbBreeds.map((breed) => {
+    const { data: breeds } = await DogAPI.get(`breeds/search?q=${name}`);
+    return res.status(200).json(
+      dbBreeds
+        .map((breed) => {
           return {
             name: breed.name,
             id: breed.id,
@@ -98,33 +91,52 @@ const getDogBreed = async (req, res) => {
             },
           };
         })
-      );
-    } else {
-      const numberToComplete = LIMIT_DOGS - dbBreeds.length;
-      const { data: breeds } = await DogAPI.get(
-        `breeds/search?q=${name}&limit=${numberToComplete}&page=0`
-      );
-      return res.status(200).json(
-        dbBreeds
-          .map((breed) => {
-            return {
-              name: breed.name,
-              id: breed.id,
-              life_span: breed.lifeSpan,
-              temperament: breed.temperaments
-                .map((temp) => temp.name)
-                .join(", "),
-              height: {
-                metric: `${breed.minHeight}-${breed.maxHeight}`,
-              },
-              weight: {
-                metric: `${breed.minWeight}-${breed.maxWeight}`,
-              },
-            };
-          })
-          .concat(breeds)
-      );
-    }
+        .concat(breeds)
+    );
+
+    // if (dbBreeds.length === 0) {
+    //   const { data: breeds } = await DogAPI.get(`breeds/search?q=${name}`);
+    //   return res.status(200).json(breeds);
+    // } else if (dbBreeds.length === LIMIT_DOGS) {
+    //   return res.status(200).json(
+    //     dbBreeds.map((breed) => {
+    //       return {
+    //         name: breed.name,
+    //         id: breed.id,
+    //         life_span: breed.lifeSpan,
+    //         temperament: breed.temperaments.map((temp) => temp.name).join(", "),
+    //         height: {
+    //           metric: `${breed.minHeight}-${breed.maxHeight}`,
+    //         },
+    //         weight: {
+    //           metric: `${breed.minWeight}-${breed.maxWeight}`,
+    //         },
+    //       };
+    //     })
+    //   );
+    // } else {
+    //   const { data: breeds } = await DogAPI.get(`breeds/search?q=${name}`);
+    //   return res.status(200).json(
+    //     dbBreeds
+    //       .map((breed) => {
+    //         return {
+    //           name: breed.name,
+    //           id: breed.id,
+    //           life_span: breed.lifeSpan,
+    //           temperament: breed.temperaments
+    //             .map((temp) => temp.name)
+    //             .join(", "),
+    //           height: {
+    //             metric: `${breed.minHeight}-${breed.maxHeight}`,
+    //           },
+    //           weight: {
+    //             metric: `${breed.minWeight}-${breed.maxWeight}`,
+    //           },
+    //         };
+    //       })
+    //       .concat(breeds)
+    //   );
+    // }
   } catch (error) {
     return res.status(400).json({
       error: error.message,

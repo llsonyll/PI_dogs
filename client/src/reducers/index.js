@@ -23,30 +23,31 @@ const initialState = {
   },
   filtersActive: false,
   filteredBreeds: [],
+  emptyBreeds: false,
   currentBreed: {},
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_BREEDS:
-      return {
-        ...state,
-        breeds: action.payload,
-        loadingBreeds: false,
-        filters: {
-          breedFilters: [],
-          myBreedsFilter: false,
-        },
-      };
     case GET_BREEDS_BY_NAME:
       return {
         ...state,
         breeds: action.payload,
+        filtersActive: false,
         loadingBreeds: false,
+        emptyBreeds: action.payload.length === 0,
+        filteredBreeds: [],
         filters: {
           breedFilters: [],
           myBreedsFilter: false,
         },
+        temperaments: state.temperaments.map((t) => {
+          return {
+            ...t,
+            selected: false,
+          };
+        }),
       };
     case GET_BREED_BY_ID:
       return {

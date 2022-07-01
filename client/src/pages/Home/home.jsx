@@ -24,6 +24,7 @@ const Home = () => {
   const filtersActive = useSelector((state) => state.filtersActive);
   const filteredBreeds = useSelector((state) => state.filteredBreeds);
   const loadingBreeds = useSelector((state) => state.loadingBreeds);
+  const emptyBreeds = useSelector((state) => state.emptyBreeds);
   const page = useSelector((state) => state.page);
 
   const handleNextPage = () => {
@@ -44,17 +45,17 @@ const Home = () => {
     if (searchCriteria === "") {
       dispatch(getBreeds(page - 1));
     } else {
-      dispatch(getBreedByName(page - 1, searchCriteria));
+      dispatch(getBreedByName(searchCriteria));
     }
   }, [searchCriteria, page, dispatch]);
 
   useEffect(() => {
-    if (breeds.length === 0) {
+    if (breeds.length === 0 && !emptyBreeds) {
       console.log("initDispatch");
       dispatch(getBreeds(page - 1));
       dispatch(getTemperaments());
     }
-  }, [breeds, dispatch, page]);
+  }, [breeds, dispatch, page, emptyBreeds]);
 
   return (
     <div className="home">
@@ -74,7 +75,9 @@ const Home = () => {
                 <div className="">
                   No hay razas con los filtros seleccionados
                 </div>
-              ) : !filtersActive && filteredBreeds.length === 0 ? (
+              ) : !filtersActive && emptyBreeds ? (
+                <div className="">No hay razas registradas</div>
+              ) : !filtersActive && breeds.length > 0 ? (
                 breeds.map((breed) => {
                   return (
                     <BreedCard
@@ -99,8 +102,8 @@ const Home = () => {
             handlePreviousPage={handlePreviousPage}
             disablePrev={loadingBreeds}
             handleNextPage={handleNextPage}
-            disableNext={loadingBreeds || breeds.length < 8}
-            page={page}
+            disableNext={loadingBreeds || breeds.length !== 8}
+            page={breeds.length > 8 ? 1 : page}
           />
         </div>
       </div>

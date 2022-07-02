@@ -1,5 +1,4 @@
 import "./breedForm.scss";
-import NavBar from "../../components/NavBar";
 import Pagination from "../../components/Pagination";
 
 import StateCard from "../../components/StateCard";
@@ -186,8 +185,6 @@ const BreedForm = () => {
 
   return (
     <div className="breedForm">
-      <NavBar landing={false} justify="space-between" title="Breed Detail " />
-
       {creationState === "" ? (
         loading ? (
           <Spinner />

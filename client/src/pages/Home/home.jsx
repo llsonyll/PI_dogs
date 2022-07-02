@@ -1,7 +1,4 @@
 import "./home.scss";
-// import { Link } from "react-router-dom";
-
-import NavBar from "../../components/NavBar";
 import SearchBar from "../../components/SearchBar";
 import BreedCard from "../../components/BreedCard";
 import Spinner from "../../components/Spinner";
@@ -26,6 +23,7 @@ const Home = () => {
   const loadingBreeds = useSelector((state) => state.loadingBreeds);
   const emptyBreeds = useSelector((state) => state.emptyBreeds);
   const page = useSelector((state) => state.page);
+  const [errorAPI, setErrorAPI] = useState(false);
 
   const handleNextPage = () => {
     dispatch(nextPage());
@@ -41,28 +39,48 @@ const Home = () => {
   };
 
   useEffect(() => {
+    console.log("Error del API");
+  }, [errorAPI]);
+
+  useEffect(() => {
     console.log("page useEffect", page);
     if (searchCriteria === "") {
-      dispatch(getBreeds(page - 1));
+      dispatch(getBreeds(page - 1)).then(({ error }) => {
+        if (error) {
+          console.log(error);
+          setErrorAPI(true);
+        }
+      });
     } else {
-      dispatch(getBreedByName(searchCriteria));
+      dispatch(getBreedByName(searchCriteria)).then(({ error }) => {
+        if (error) {
+          console.log("Error en la solicitud");
+          setErrorAPI(true);
+        }
+      });
     }
   }, [searchCriteria, page, dispatch]);
 
   useEffect(() => {
     if (breeds.length === 0 && !emptyBreeds) {
       console.log("initDispatch");
-      dispatch(getBreeds(page - 1));
-      dispatch(getTemperaments());
+      dispatch(getBreeds(page - 1)).then(({ error }) => {
+        if (error) {
+          setErrorAPI(true);
+        }
+      });
+      dispatch(getTemperaments()).then(({ error }) => {
+        if (error) {
+          setErrorAPI(true);
+        }
+      });
     }
   }, [breeds, dispatch, page, emptyBreeds]);
 
   return (
     <div className="home">
-      <NavBar landing={false} justify="space-between" />
       <div className="content">
         <Sidebar />
-
         <div className="main">
           <SearchBar handleInput={handleSearchInput} />
           {loadingBreeds ? (

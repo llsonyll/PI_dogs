@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/PI_dogs/static/css/main.c7e2a767.chunk.css",
+    "main.js": "/PI_dogs/static/js/main.491296ed.chunk.js",
+    "main.js.map": "/PI_dogs/static/js/main.491296ed.chunk.js.map",
+    "runtime-main.js": "/PI_dogs/static/js/runtime-main.89ba0419.js",
+    "runtime-main.js.map": "/PI_dogs/static/js/runtime-main.89ba0419.js.map",
+    "static/js/2.96e30928.chunk.js": "/PI_dogs/static/js/2.96e30928.chunk.js",
+    "static/js/2.96e30928.chunk.js.map": "/PI_dogs/static/js/2.96e30928.chunk.js.map",
+    "static/js/3.ea0cdef6.chunk.js": "/PI_dogs/static/js/3.ea0cdef6.chunk.js",
+    "static/js/3.ea0cdef6.chunk.js.map": "/PI_dogs/static/js/3.ea0cdef6.chunk.js.map",
+    "index.html": "/PI_dogs/index.html",
+    "static/css/main.c7e2a767.chunk.css.map": "/PI_dogs/static/css/main.c7e2a767.chunk.css.map",
+    "static/js/2.96e30928.chunk.js.LICENSE.txt": "/PI_dogs/static/js/2.96e30928.chunk.js.LICENSE.txt",
+    "static/media/dog.cde07528.png": "/PI_dogs/static/media/dog.cde07528.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.89ba0419.js",
+    "static/js/2.96e30928.chunk.js",
+    "static/css/main.c7e2a767.chunk.css",
+    "static/js/main.491296ed.chunk.js"
+  ]
+}

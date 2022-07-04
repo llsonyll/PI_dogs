@@ -7,7 +7,6 @@ import { FaReact, FaNodeJs } from "react-icons/fa";
 import { SiExpress, SiPostgresql } from "react-icons/si";
 
 // Components
-import NavBar from "../../components/NavBar";
 import RouteButton from "../../components/RouteButton";
 
 const Landing = () => {

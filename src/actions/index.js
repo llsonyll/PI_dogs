@@ -11,8 +11,12 @@ export const NEXT_PAGE = "NEXT_PAGE";
 export const PREV_PAGE = "PREV_PAGE";
 
 const DogAPI = axios.create({
-  baseURL: "http://localhost:3001/",
+  baseURL: "https://dogs-pi-henry.herokuapp.com/",
   timeout: 5000,
+  // headers: {
+  //   "Access-Control-Allow-Origin": "*",
+  //   "Content-Type": "application/json",
+  // },
 });
 
 export const getBreeds = (page = 0) => {
@@ -101,12 +105,13 @@ export const createBreed = (breed) => {
         status,
         data,
       };
-    } catch ({ response }) {
+    } catch (error) {
+      console.log(error);
       return {
         error: {
           name: "createBreed",
-          status: response.status,
-          message: response.data,
+          status: error.response.status,
+          message: error.response.data,
         },
       };
     }

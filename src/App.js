@@ -10,7 +10,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 function App() {
   return (
     <div className="App">
-      <Router>
+      <Router basename="PI_dogs">
         <NavBar />
         <div className="content">
           <Switch>

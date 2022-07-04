@@ -15,7 +15,7 @@ const NavBar = () => {
   const { pathname } = useLocation();
   const dispatch = useDispatch();
   const sbState = useSelector((state) => state.sbState);
-  const isLanding = pathname === "/PI_dogs";
+  const isLanding = pathname === "/";
   const title = () => {
     const [slash, route, description] = pathname.split("/");
     switch (route) {

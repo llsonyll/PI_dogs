@@ -11,6 +11,7 @@ export const NEXT_PAGE = "NEXT_PAGE";
 export const PREV_PAGE = "PREV_PAGE";
 
 const DogAPI = axios.create({
+  // baseURL: "http//localhost:3000/",
   baseURL: "https://dogs-pi-henry.herokuapp.com/",
   timeout: 5000,
   // headers: {

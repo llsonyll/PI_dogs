@@ -1,6 +1,6 @@
 .sideBar {
   background-color: #fff;
-  position: relative;
+  // position: relative;
   box-shadow: 4px 0px 8px rgba(0, 0, 0, 0.25);
   padding: 18px 36px 18px 18px;
   overflow-x: hidden;
@@ -93,6 +93,133 @@
       input[type="checkbox"] {
         border: 1px solid blue;
       }
+    }
+  }
+
+  &__mobile {
+    position: absolute;
+    inset: 0px;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 1000;
+
+    .modal {
+      // margin: 80px 20px 20px 20px;
+      background-color: #fff;
+      position: absolute;
+      top: 80px;
+      left: 20px;
+      right: 20px;
+      z-index: 2;
+      overflow: hidden;
+
+      .close_btn {
+        cursor: pointer;
+        background-color: transparent;
+        border: none;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 30px;
+      }
+
+      .wrapper {
+        padding: 50px 20px 0px 20px;
+
+        .content {
+          height: 500px;
+          width: 100%;
+          overflow-y: auto;
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+
+          .title {
+            font-size: 21px;
+            font-weight: 700;
+          }
+
+          .filter {
+            .name {
+              font-size: 18px;
+              font-weight: 500;
+            }
+
+            .container {
+              display: block;
+              position: relative;
+              padding-left: 35px;
+              margin: 12px 0px;
+              cursor: pointer;
+              font-size: 18px;
+              -webkit-user-select: none;
+              -moz-user-select: none;
+              -ms-user-select: none;
+              user-select: none;
+
+              input {
+                position: absolute;
+                opacity: 0;
+                cursor: pointer;
+                height: 0;
+                width: 0;
+              }
+
+              .checkmark {
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 25px;
+                width: 25px;
+                background-color: #eee;
+
+                &::after {
+                  content: "";
+                  position: absolute;
+                  display: none;
+                }
+
+                &::after {
+                  left: 9px;
+                  top: 5px;
+                  width: 5px;
+                  height: 10px;
+                  border: solid white;
+                  border-width: 0 3px 3px 0;
+                  -webkit-transform: rotate(45deg);
+                  -ms-transform: rotate(45deg);
+                  transform: rotate(45deg);
+                }
+              }
+            }
+
+            .container:hover input ~ .checkmark {
+              background-color: #ccc;
+            }
+
+            .container input:checked ~ .checkmark {
+              background-color: #ff9800;
+            }
+
+            .container input:checked ~ .checkmark:after {
+              display: block;
+            }
+          }
+
+          .helper {
+            height: 150px;
+            width: 20px;
+            border: 1px solid orange;
+          }
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 625px) {
+    padding: 0;
+
+    &__desktop {
+      display: none;
     }
   }
 }

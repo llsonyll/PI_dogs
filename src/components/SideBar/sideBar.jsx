@@ -1,13 +1,19 @@
 import "./sideBar.scss";
 import Spinner from "../Spinner";
-// import { useState } from "react";
 // import { MdDoubleArrow } from "react-icons/md";
+import { TbCircleX } from "react-icons/tb";
 import { useDispatch, useSelector } from "react-redux";
-import { filterBreeds } from "../../actions";
+import { filterBreeds, setSbState } from "../../actions";
+import { useEffect } from "react";
 
 const SideBar = () => {
-  // const [sbOpen, setSbOpen] = useState(true);
   const dispatch = useDispatch();
+
+  const sbOpen = useSelector((state) => state.sbState);
+
+  const sideBarDisplay = {
+    display: sbOpen ? "block" : "none",
+  };
 
   const { breedFilters: filters, myBreedsFilter } = useSelector(
     (state) => state.filters
@@ -40,6 +46,20 @@ const SideBar = () => {
   //   justifyContent: temperaments.length > 0 ? "flex-start" : "center",
   //   alignItems: temperaments.length > 0 ? "flex-start" : "center",
   // };
+
+  const handleResizeSibeBar = () => {
+    if (window.innerWidth === 625) {
+      dispatch(setSbState(false));
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResizeSibeBar);
+    return () => {
+      window.removeEventListener("resize", handleResizeSibeBar);
+      dispatch(setSbState(false));
+    };
+  }, []);
 
   return (
     <div className="sideBar">
@@ -88,6 +108,58 @@ const SideBar = () => {
         ) : (
           <Spinner />
         )}
+      </div>
+
+      <div className="sideBar__mobile" style={sideBarDisplay}>
+        <div className="modal">
+          <button
+            className="close_btn"
+            title="closeModal"
+            onClick={() => {
+              dispatch(setSbState(false));
+            }}
+          >
+            <TbCircleX />
+          </button>
+
+          <div className="wrapper">
+            {temperaments.length > 0 ? (
+              <div className="content">
+                <div className="title">Filtros</div>
+                <div className="filter">
+                  <div className="name">Mis Razas</div>
+                  <label className="container">
+                    Raza personalizada
+                    <input
+                      type="checkbox"
+                      checked={myBreedsFilter}
+                      onChange={handleMyBreedsFilter}
+                    />
+                    <span className="checkmark"></span>
+                  </label>
+                </div>
+                <div className="filter">
+                  <div className="name">Temperamentos</div>
+                  {temperaments.map((t) => {
+                    return (
+                      <label key={t.id} className="container">
+                        {t.name}
+                        <input
+                          type="checkbox"
+                          checked={t.selected}
+                          onChange={(e) => handleCheckInput(e, t)}
+                        />
+                        <span className="checkmark"></span>
+                      </label>
+                    );
+                  })}
+                </div>
+              </div>
+            ) : (
+              <Spinner />
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

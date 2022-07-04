@@ -8,6 +8,7 @@ import {
   NEXT_PAGE,
   PREV_PAGE,
   CLEAN_BREED,
+  SET_SB_STATE,
 } from "../actions";
 
 const initialState = {
@@ -25,6 +26,7 @@ const initialState = {
   filteredBreeds: [],
   emptyBreeds: false,
   currentBreed: {},
+  sbState: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -115,6 +117,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         currentBreed: {},
+      };
+    case SET_SB_STATE:
+      return {
+        ...state,
+        sbState: action.payload,
       };
     default:
       return {

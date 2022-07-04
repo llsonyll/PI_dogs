@@ -9,6 +9,7 @@ export const GET_TEMPERAMENTS = "GET_TEMPERAMENTS";
 export const SET_BREED_LOADING = "SET_BREED_LOADING";
 export const NEXT_PAGE = "NEXT_PAGE";
 export const PREV_PAGE = "PREV_PAGE";
+export const SET_SB_STATE = "SET_SB_STATE";
 
 const DogAPI = axios.create({
   // baseURL: "http//localhost:3000/",
@@ -143,6 +144,10 @@ export const prevPage = () => {
 
 export const cleanCurrentBreed = () => {
   return { type: CLEAN_BREED };
+};
+
+export const setSbState = (state) => {
+  return { type: SET_SB_STATE, payload: state };
 };
 
 // export const getBreeds = (page = 0) => {

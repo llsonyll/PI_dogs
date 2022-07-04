@@ -1,61 +1,86 @@
-$primary : #FF9800;
-$primary-dark : #c77800;
+$primary: #ff9800;
+$primary-dark: #c77800;
 
 .navBar {
-    background-color: $primary;
+  background-color: $primary;
+  display: flex;
+  height: 70px;
+  padding: 0 45px;
+  position: relative;
+  margin-bottom: 20px;
+
+  &__logo {
+    width: 200px;
+  }
+
+  &::after {
+    background-color: $primary-dark;
+    bottom: -20px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    content: "";
+    height: 20px;
+    left: 0;
+    position: absolute;
+    right: 0;
+  }
+
+  &__title {
     display: flex;
-    height: 70px;
-    padding: 0 45px;
-    position: relative;
-    margin-bottom: 20px;
+    align-items: center;
+    text-decoration: none;
 
-    &__logo {
-        width: 200px;
+    .img {
+      height: 60px;
+      width: 60px;
     }
 
-    &::after {
-        background-color: $primary-dark;
-            bottom: -20px;
-            box-shadow: 0px 4px 4px rgba(0, 0, 0, .25);
-            content: '';
-            height: 20px;
-            left: 0;
-            position: absolute;
-            right: 0;
+    .text {
+      margin: 0 12px;
+      font-size: 20px;
+      color: #fff;
+      font-weight: 500;
     }
+  }
 
-    &__title {
-        display: flex;
-        align-items: center;
+  &__options {
+    &--desktop {
+      display: flex;
+      align-items: center;
+
+      .navlink {
         text-decoration: none;
-
-        .img {
-            height: 60px;
-            width: 60px;
-        }
-
-        .text {
-            margin: 0 12px;
-            font-size: 20px;
-            color: #fff;
-            font-weight: 500;
-        }
+        color: white;
+        margin-right: 12px;
+      }
     }
+
+    &--mobile {
+      display: none;
+
+      .navlink {
+        text-decoration: none;
+        color: white;
+        margin-right: 12px;
+      }
+    }
+  }
+
+  &__henry {
+    width: 200px;
+  }
+
+  @media screen and (max-width: 625px) {
+    padding: 0 16px;
 
     &__options {
-        &--desktop {
-            display: flex;
-            align-items:center;
+      &--desktop {
+        border: 1px solid red;
+        display: none;
+      }
 
-            .navlink {
-                text-decoration: none;
-                color: white;
-                margin-right: 12px;
-            }
-        }
+      &--mobile {
+        display: block;
+      }
     }
-
-    &__henry {
-        width: 200px;
-    }
+  }
 }

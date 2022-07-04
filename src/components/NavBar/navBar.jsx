@@ -3,11 +3,19 @@ import HenryLogo from "../../assets/henry.png";
 import DogsLogo from "../../assets/dog.png";
 
 import { Link, NavLink, useRouteMatch, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
+import { setSbState } from "../../actions";
+
+import { BiMenu } from "react-icons/bi";
 
 const NavBar = () => {
   const match = useRouteMatch("/breed/form");
+  const matchHome = useRouteMatch("/home");
   const { pathname } = useLocation();
-  const isLanding = pathname === "/";
+  const dispatch = useDispatch();
+  const sbState = useSelector((state) => state.sbState);
+  const isLanding = pathname === "/PI_dogs";
   const title = () => {
     const [slash, route, description] = pathname.split("/");
     switch (route) {
@@ -28,6 +36,10 @@ const NavBar = () => {
     justifyContent: isLanding ? "center" : "space-between",
   };
 
+  const toggleSbState = () => {
+    dispatch(setSbState(!sbState));
+  };
+
   return (
     <>
       <div className="navBar" style={propStyle}>
@@ -46,6 +58,18 @@ const NavBar = () => {
                 </NavLink>
               ) : null}
               <img src={HenryLogo} alt="henryLogo" className="navBar__henry" />
+            </div>
+            <div className="navBar__options--mobile">
+              {!match ? (
+                <NavLink to="/breed/form" className="navlink">
+                  New Breed
+                </NavLink>
+              ) : null}
+              {matchHome ? (
+                <button onClick={toggleSbState}>
+                  <BiMenu />
+                </button>
+              ) : null}
             </div>
           </>
         )}

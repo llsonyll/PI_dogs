@@ -159,7 +159,10 @@ const getBreedById = async (req, res) => {
         return res
           .status(404)
           .send("ID provided does not belong to any existing breed");
-      return res.status(200).json(data[0].breeds[0]);
+      return res.status(200).json({
+        ...data[0].breeds[0],
+        url: data.url,
+      });
     } else {
       const breed = await Breed.findByPk(id, { include: Temperament });
       if (!breed)

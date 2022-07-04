@@ -200,6 +200,8 @@ const createDogBreed = async (req, res) => {
     temperaments,
   } = req.body;
 
+  console.log(req.body);
+
   if (!name || !maxHeight | !minHeight | !maxWeight | !minWeight) {
     return res
       .status(404)

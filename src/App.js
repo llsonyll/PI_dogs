@@ -14,17 +14,20 @@ function App() {
         <NavBar />
         <div className="content">
           <Switch>
-            <Route exact path="/PI_dogs">
+            <Route exact path="/">
               <LandingPage />
             </Route>
-            <Route path="/PI_dogs/home">
+            <Route path="/home">
               <Home />
             </Route>
-            <Route path="/PI_dogs/breed/form">
+            <Route path="/breed/form">
               <BreedFormPage />
             </Route>
-            <Route path="/PI_dogs/breed/:id">
+            <Route path="/breed/:id">
               <BreedDetailPage />
+            </Route>
+            <Route path="*">
+              <LandingPage />
             </Route>
           </Switch>
         </div>

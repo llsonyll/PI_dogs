@@ -29,8 +29,8 @@ const BreedDetail = () => {
           <div className="dogCard">
             <img
               src={
-                breed.reference_image_id
-                  ? `https://cdn2.thedogapi.com/images/${breed.reference_image_id}.jpg`
+                breed.url
+                  ? breed.url
                   : "https://image.shutterstock.com/shutterstock/photos/563030956/display_1500/stock-vector-vector-black-silhouette-of-a-dog-isolated-on-a-white-background-563030956.jpg"
               }
               alt="breedImg"

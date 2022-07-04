@@ -155,13 +155,14 @@ const getBreedById = async (req, res) => {
   try {
     if (fromDogAPI === "true") {
       const { data } = await DogAPI.get(`images/search?breed_id=${id}`);
-      if (!data[0] || !data[0].breeds[0])
+      if (!data[0] || !data[0].breeds[0]) {
         return res
           .status(404)
           .send("ID provided does not belong to any existing breed");
+      }
       return res.status(200).json({
         ...data[0].breeds[0],
-        url: data.url,
+        url: data[0].url,
       });
     } else {
       const breed = await Breed.findByPk(id, { include: Temperament });

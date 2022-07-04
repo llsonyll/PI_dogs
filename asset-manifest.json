@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/PI_dogs/static/css/main.c7e2a767.chunk.css",
-    "main.js": "/PI_dogs/static/js/main.b3063a7b.chunk.js",
-    "main.js.map": "/PI_dogs/static/js/main.b3063a7b.chunk.js.map",
+    "main.js": "/PI_dogs/static/js/main.7acfbff3.chunk.js",
+    "main.js.map": "/PI_dogs/static/js/main.7acfbff3.chunk.js.map",
     "runtime-main.js": "/PI_dogs/static/js/runtime-main.89ba0419.js",
     "runtime-main.js.map": "/PI_dogs/static/js/runtime-main.89ba0419.js.map",
     "static/js/2.96e30928.chunk.js": "/PI_dogs/static/js/2.96e30928.chunk.js",
@@ -18,6 +18,6 @@
     "static/js/runtime-main.89ba0419.js",
     "static/js/2.96e30928.chunk.js",
     "static/css/main.c7e2a767.chunk.css",
-    "static/js/main.b3063a7b.chunk.js"
+    "static/js/main.7acfbff3.chunk.js"
   ]
 }

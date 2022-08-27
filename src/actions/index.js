@@ -12,13 +12,8 @@ export const PREV_PAGE = "PREV_PAGE";
 export const SET_SB_STATE = "SET_SB_STATE";
 
 const DogAPI = axios.create({
-  // baseURL: "http//localhost:3000/",
   baseURL: "https://dogs-pi-henry.herokuapp.com/",
   timeout: 5000,
-  // headers: {
-  //   "Access-Control-Allow-Origin": "*",
-  //   "Content-Type": "application/json",
-  // },
 });
 
 export const getBreeds = (page = 0) => {
